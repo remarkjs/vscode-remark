@@ -115,7 +115,11 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		const remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
+		let remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
+		remarkSettings = Object.assign(<IRemarkSettings>{
+			plugins: [],
+			rules: []
+		}, remarkSettings);
 
 		if (remarkSettings.plugins.length !== 0) {
 			return getPlugins(remarkSettings.plugins).then((plugins) => {
