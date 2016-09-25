@@ -1,0 +1,9 @@
+.vscode/**
+typings/**
+test/**
+src/**
+.editorconfig
+.gitignore
+.travis.yml
+tsconfig.json
+tslint.json

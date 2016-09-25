@@ -1,0 +1,18 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"remark.format": {
+		"plugins": [
+			"first-heading",
+			"github"
+		],
+		"rules": {
+			"closeAtx": true
+		},
+		"github": {
+			"repository": "https://github.com/mrmlnc/vscode-remark"
+		},
+		"first-heading": {
+			"heading": "Hello, VS Code!"
+		}
+	}
+}

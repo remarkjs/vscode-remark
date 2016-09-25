@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+		"moduleResolution": "classic",
+		"rootDir": "src",
+		"outDir": "out",
+		"noLib": false,
+		"noImplicitAny": false,
+		"experimentalDecorators": true,
+		"removeComments": true,
+		"declaration": false
+	}
+}
