@@ -1,6 +1,6 @@
 # vscode-remark
 
-> Beautify markdown code with Remark.
+> Beautify markdown code with [Remark](https://github.com/wooorm/remark).
 
 ![vscode-remark](https://cloud.githubusercontent.com/assets/7034281/18815111/44d2ffb2-832f-11e6-81dc-e3f62cfa06dc.gif)
 
