@@ -197,6 +197,7 @@
     "npm-module-path": "2.0.0"
   },
   "scripts": {
-    "test": "tslint src/**/*.ts"
+    "test": "tslint src/**/*.ts",
+    "build": "tsc"
   }
 }
