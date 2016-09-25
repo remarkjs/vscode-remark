@@ -97,6 +97,10 @@ Many plugins correctly give an error. For example:
 
 Therefore, if you are experiencing problems with this extension, please create issue on GitHub repository.
 
+> **Tip**
+>
+> You can see a detailed error report in the Developer Tools (`Help -> Toggle Developer Tools`). Please do not forget to attach it to your issue.
+
 ## Keyboard shortcuts
 
 For changes keyboard shortcuts, create a new rule in `File -> Preferences -> Keyboard Shortcuts`:
