@@ -13,7 +13,8 @@ See the [extension installation guide](https://code.visualstudio.com/docs/editor
 
 ## Usage
 
-Press `F1` and run the command named `Remark: Beautify markdown code`.
+  * You can use global keyboard shortcut <kbd>ALT+SHIFT+F</kbd> or right-click context menu `Format code`.
+  * Or press <kbd>F1</kbd> and run the command named `Remark: Beautify markdown code`.
 
 ## Supported languages
 
