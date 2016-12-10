@@ -85,18 +85,18 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 	let api = remark();
 	let errors: IPluginError[] = [];
 
-	let remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
-	remarkSettings = Object.assign(<IRemarkSettings>{
-		plugins: [],
-		rules: []
-	}, remarkSettings);
+	let remarkSettings;
 
-	if (!remarkSettings.rules || remarkSettings.rules.length === 0) {
-		const config = await getWorkspaceConfig();
-		if (config) {
-			remarkSettings = config;
-			remarkSettings.rules = config.settings;
-		}
+	const config = await getWorkspaceConfig();
+	if (config) {
+		remarkSettings = config;
+		remarkSettings.rules = config.settings;
+	} else {
+		remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
+		remarkSettings = Object.assign(<IRemarkSettings>{
+			plugins: [],
+			rules: []
+		}, remarkSettings);
 	}
 
 	let plugins = [];
