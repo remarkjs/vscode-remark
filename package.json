@@ -2,8 +2,7 @@
   "name": "vscode-remark",
   "displayName": "Remark ",
   "description": "Beautify markdown code with Remark",
-  "version": "0.3.1",
-  "preview": true,
+  "version": "1.0.0",
   "publisher": "mrmlnc",
   "license": "MIT",
   "engines": {
