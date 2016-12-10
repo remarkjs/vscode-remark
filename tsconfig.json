@@ -2,13 +2,10 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
-		"moduleResolution": "classic",
+		"moduleResolution": "node",
 		"rootDir": "src",
 		"outDir": "out",
-		"noLib": false,
-		"noImplicitAny": false,
-		"experimentalDecorators": true,
-		"removeComments": true,
-		"declaration": false
+		"forceConsistentCasingInFileNames": true,
+		"declaration": true
 	}
 }
