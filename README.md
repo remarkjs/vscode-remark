@@ -79,7 +79,7 @@ Unfortunately, some plugins do not give correct errors. So when you see the foll
 }
 ```
 
-![image](https://cloud.githubusercontent.com/assets/7034281/18815133/de2f477e-832f-11e6-83cd-55b894d0e4a4.png)
+![image](https://cloud.githubusercontent.com/assets/7034281/21076181/e2c4892e-bf35-11e6-8d8d-a570470ac367.png)
 
 Many plugins correctly give an error. For example:
 
@@ -93,7 +93,7 @@ Many plugins correctly give an error. For example:
 }
 ```
 
-![image](https://cloud.githubusercontent.com/assets/7034281/18815141/1c2c81a4-8330-11e6-8b32-69417b24196b.png)
+![image](https://cloud.githubusercontent.com/assets/7034281/21076175/b5365938-bf35-11e6-8ba2-d02e9f5019c9.png)
 
 Therefore, if you are experiencing problems with this extension, please create issue on GitHub repository.
 
