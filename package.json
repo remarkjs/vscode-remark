@@ -26,7 +26,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:remark.reformat"
+    "onCommand:remark.reformat",
+    "onLanguage:markdown"
   ],
   "main": "./out/extension.js",
   "contributes": {
