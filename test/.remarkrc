@@ -3,13 +3,13 @@
 		"first-heading",
 		"github"
 	],
-	"rules": {
+	"settings": {
 		"closeAtx": true
 	},
 	"github": {
 		"repository": "https://github.com/mrmlnc/vscode-remark"
 	},
 	"first-heading": {
-		"heading": "Hello, VS Code!"
+		"heading": "Hello, .remarkrc file!"
 	}
 }
