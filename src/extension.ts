@@ -88,7 +88,7 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 	let remarkSettings;
 
 	const config = await getWorkspaceConfig();
-	if (config) {
+	if (config && Object.keys(config).length !== 0) {
 		remarkSettings = config;
 		remarkSettings.rules = config.settings;
 	} else {
