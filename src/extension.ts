@@ -4,6 +4,8 @@ import * as vscode from 'vscode';
 import * as remark from 'remark';
 import { resolveMany } from 'npm-module-path';
 
+let output: vscode.OutputChannel;
+
 interface IPlugin {
 	name: string;
 	package: any;
@@ -27,6 +29,27 @@ interface IRemarkResult {
 	contents: string;
 }
 
+interface IResult {
+	content: string;
+	range: vscode.Range;
+}
+
+/**
+ * Show message in output channel.
+ */
+function showOutput(msg: string): void {
+	msg = msg.toString();
+
+	if (!output) {
+		output = vscode.window.createOutputChannel('Remark');
+	}
+
+	output.clear();
+	output.appendLine('[Remark]');
+	output.append(msg);
+	output.show();
+}
+
 function getPlugins(list: string[]): Promise<IPlugin[]> {
 	const root = vscode.workspace.rootPath || '';
 
@@ -40,9 +63,20 @@ function getPlugins(list: string[]): Promise<IPlugin[]> {
 	});
 }
 
-function runRemark(textEditor: vscode.TextEditor, settings: IRemarkSettings, plugins: IPlugin[]): void {
+async function runRemark(document: vscode.TextDocument, range: vscode.Range): Promise<any> {
 	let api = remark();
 	let errors: IPluginError[] = [];
+
+	let remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
+	remarkSettings = Object.assign(<IRemarkSettings>{
+		plugins: [],
+		rules: []
+	}, remarkSettings);
+
+	let plugins = [];
+	if (remarkSettings.plugins.length !== 0) {
+		plugins = await getPlugins(remarkSettings.plugins);
+	}
 
 	if (plugins.length !== 0) {
 		plugins.forEach((plugin) => {
@@ -55,8 +89,8 @@ function runRemark(textEditor: vscode.TextEditor, settings: IRemarkSettings, plu
 			}
 
 			try {
-				if (settings[plugin.name]) {
-					api = api.use(plugin.package, settings[plugin.name]);
+				if (remarkSettings[plugin.name]) {
+					api = api.use(plugin.package, remarkSettings[plugin.name]);
 				} else {
 					api = api.use(plugin.package);
 				}
@@ -70,65 +104,78 @@ function runRemark(textEditor: vscode.TextEditor, settings: IRemarkSettings, plu
 	}
 
 	if (errors.length !== 0) {
+		let message = '';
 		errors.forEach((error) => {
 			if (error.err === 'Package not found') {
-				vscode.window.showErrorMessage(`[${error.name}]: ${error.err.toString()}. Use **npm i ${error.name}** or **npm i -g ${error.name}**.`);
+				message += `[${error.name}]: ${error.err.toString()}. Use **npm i remark-${error.name}** or **npm i -g remark-${error.name}**.\n`;
 				return;
 			}
 
-			vscode.window.showErrorMessage(`[${error.name}]: ${error.err.toString()}`);
+			message += `[${error.name}]: ${error.err.toString()}\n`;
 		});
 
-		return;
+		return <any>Promise.reject(message);
 	}
 
-	const text = textEditor.document.getText();
+	let text;
+	if (!range) {
+		const lastLine = document.lineAt(document.lineCount - 1);
+		const start = new vscode.Position(0, 0);
+		const end = new vscode.Position(document.lineCount - 1, lastLine.text.length);
 
-	api.process(text, settings.rules, (err, result: IRemarkResult) => {
-		if (err) {
-			console.log(err);
-			vscode.window.showErrorMessage(`[remark]: ${err.toString()}`);
-			return;
-		}
+		range = new vscode.Range(start, end);
+		text = document.getText();
+	} else {
+		text = document.getText(range);
+	}
 
-		if (result.messages.length !== 0) {
-			result.messages.forEach((message) => {
-				vscode.window.showWarningMessage(`[remark]: ${message.toString()}`);
+	return new Promise((resolve, reject) => {
+		api.process(text, remarkSettings.rules, (err, result: IRemarkResult) => {
+			if (err) {
+				return reject(err);
+			}
+
+			if (result.messages.length !== 0) {
+				let message = '';
+				result.messages.forEach((message) => {
+					message += message.toString() + '\n';
+				});
+
+				return reject(message);
+			}
+
+			resolve(<IResult>{
+				content: result.contents,
+				range
 			});
-		}
-
-		textEditor.edit((editBuilder: vscode.TextEditorEdit) => {
-			const document = textEditor.document;
-			const lastLine = document.lineAt(document.lineCount - 1);
-			const start = new vscode.Position(0, 0);
-			const end = new vscode.Position(document.lineCount - 1, lastLine.text.length);
-			const range = new vscode.Range(start, end);
-
-			editBuilder.replace(range, result.contents);
 		});
 	});
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	const toDisposable = vscode.commands.registerTextEditorCommand('remark.reformat', (textEditor: vscode.TextEditor) => {
-		if (textEditor.document.languageId !== 'markdown') {
-			return;
-		}
+	const supportedDocuments: vscode.DocumentSelector = [
+		{ language: 'markdown', scheme: 'file' }
+	];
 
-		let remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
-		remarkSettings = Object.assign(<IRemarkSettings>{
-			plugins: [],
-			rules: []
-		}, remarkSettings);
-
-		if (remarkSettings.plugins.length !== 0) {
-			return getPlugins(remarkSettings.plugins).then((plugins) => {
-				runRemark(textEditor, remarkSettings, plugins);
-			});
-		}
-
-		runRemark(textEditor, remarkSettings, []);
+	const command = vscode.commands.registerTextEditorCommand('remark.reformat', (textEditor: vscode.TextEditor) => {
+		runRemark(textEditor.document, null)
+			.then((result) => {
+				textEditor.edit((editBuilder) => {
+					editBuilder.replace(result.range, result.content);
+				});
+			})
+			.catch(showOutput);
 	});
 
-	context.subscriptions.push(toDisposable);
+	const formatCode = vscode.languages.registerDocumentRangeFormattingEditProvider(supportedDocuments, {
+		provideDocumentRangeFormattingEdits(document, range) {
+			return runRemark(document, range).then((result) => {
+				return [vscode.TextEdit.replace(range, result.content)];
+			}).catch(showOutput);
+		}
+	});
+
+	// Subscriptions
+	context.subscriptions.push(command);
+	context.subscriptions.push(formatCode);
 }
