@@ -198,7 +198,10 @@
     "npm-module-path": "2.0.2"
   },
   "scripts": {
-    "test": "tslint src/**/*.ts",
-    "build": "tsc"
+    "clean": "rimraf out",
+    "lint": "tslint src/**/*.ts",
+    "compile": "tsc",
+    "build": "npm run clean && npm run lint && npm run compile",
+    "watch": "npm run clean && npm run lint && npm run compile -- --sourceMap --watch"
   }
 }
