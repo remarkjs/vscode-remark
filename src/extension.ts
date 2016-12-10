@@ -4,6 +4,8 @@ import * as vscode from 'vscode';
 import * as remark from 'remark';
 import { resolveMany } from 'npm-module-path';
 
+import { fileRead } from './utils/fs';
+
 let output: vscode.OutputChannel;
 
 interface IPlugin {
@@ -50,6 +52,22 @@ function showOutput(msg: string): void {
 	output.show();
 }
 
+function getWorkspaceConfig() {
+	return vscode.workspace.findFiles('**/*remarkrc', '**/node_modules/**').then((files) => {
+		if (files.length === 0) {
+			return null;
+		}
+
+		return fileRead(files[0].fsPath).then((content) => {
+			try {
+				return JSON.parse(content);
+			} catch (err) {
+				return 'SyntaxError';
+			}
+		});
+	});
+}
+
 function getPlugins(list: string[]): Promise<IPlugin[]> {
 	const root = vscode.workspace.rootPath || '';
 
@@ -72,6 +90,14 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 		plugins: [],
 		rules: []
 	}, remarkSettings);
+
+	if (!remarkSettings.rules || remarkSettings.rules.length === 0) {
+		const config = await getWorkspaceConfig();
+		if (config) {
+			remarkSettings = config;
+			remarkSettings.rules = config.settings;
+		}
+	}
 
 	let plugins = [];
 	if (remarkSettings.plugins.length !== 0) {
