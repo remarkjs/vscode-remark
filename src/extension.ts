@@ -53,21 +53,23 @@ function showOutput(msg: string): void {
 }
 
 function getWorkspaceConfig() {
-	return vscode.workspace.findFiles('**/*remarkrc', '**/node_modules/**').then((files) => {
-		if (files.length === 0) {
-			return null;
-		}
-
-		return fileRead(files[0].fsPath).then((content) => {
-			try {
-				return JSON.parse(content);
-			} catch (err) {
-				return 'SyntaxError';
-			}
-		});
-	});
+    if (vscode.workspace.rootPath === undefined) {
+        return null;
+    } else {
+        return vscode.workspace.findFiles('**/*remarkrc', '**/node_modules/**').then((files) => {
+            if (files.length === 0) {
+                return null;
+            }
+            return fs_1.fileRead(files[0].fsPath).then((content) => {
+                try {
+                    return JSON.parse(content);
+                } catch (err) {
+                    return 'SyntaxError';
+                }
+            });
+        });
+    }
 }
-
 function getPlugins(list: string[]): Promise<IPlugin[]> {
 	const root = vscode.workspace.rootPath || '';
 
