@@ -81,23 +81,31 @@ function getPlugins(list: string[]): Promise<IPlugin[]> {
 	});
 }
 
-async function runRemark(document: vscode.TextDocument, range: vscode.Range): Promise<any> {
-	let api = remark();
-	let errors: IPluginError[] = [];
-
+async function getRemarkSettings() {
+	let config;
 	let remarkSettings;
-
-	const config = await getWorkspaceConfig();
+	if (vscode.workspace.rootPath) {
+		config = await getWorkspaceConfig();
+	}
 	if (config && Object.keys(config).length !== 0) {
 		remarkSettings = config;
 		remarkSettings.rules = config.settings;
-	} else {
-		remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
-		remarkSettings = Object.assign(<IRemarkSettings>{
-			plugins: [],
-			rules: []
-		}, remarkSettings);
+		return remarkSettings;
 	}
+
+	remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
+	remarkSettings = Object.assign(<IRemarkSettings>{
+		plugins: [],
+		rules: []
+	}, remarkSettings);
+
+	return remarkSettings;
+}
+
+async function runRemark(document: vscode.TextDocument, range: vscode.Range): Promise<any> {
+	let api = remark();
+	let errors: IPluginError[] = [];
+	const remarkSettings = await getRemarkSettings();
 
 	let plugins = [];
 	if (remarkSettings.plugins.length !== 0) {
