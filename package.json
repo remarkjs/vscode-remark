@@ -192,6 +192,7 @@
     "tslint": "^4.5.1",
     "tslint-config-xo": "^1.1.0",
     "typescript": "^2.2.1",
+    "rimraf": "^2.6.1",
     "vscode": "^1.1.0"
   },
   "dependencies": {
@@ -199,6 +200,7 @@
     "npm-module-path": "2.0.2"
   },
   "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
     "clean": "rimraf out",
     "lint": "tslint src/**/*.ts",
     "compile": "tsc",
