@@ -23,14 +23,6 @@ interface IRemarkSettings {
 	rules: any;
 }
 
-interface IRemarkResult {
-	data: any;
-	messages: any;
-	history: any;
-	cwd: string;
-	contents: string;
-}
-
 interface IResult {
 	content: string;
 	range: vscode.Range;
@@ -84,19 +76,21 @@ function getPlugins(list: string[]): Promise<IPlugin[]> {
 async function getRemarkSettings() {
 	let config;
 	let remarkSettings;
+
 	if (vscode.workspace.rootPath) {
 		config = await getWorkspaceConfig();
 	}
 	if (config && Object.keys(config).length !== 0) {
 		remarkSettings = config;
 		remarkSettings.rules = config.settings;
+		remarkSettings.plugins = config.plugins || [];
 		return remarkSettings;
 	}
 
 	remarkSettings = vscode.workspace.getConfiguration('remark').get<IRemarkSettings>('format');
 	remarkSettings = Object.assign(<IRemarkSettings>{
 		plugins: [],
-		rules: []
+		rules: {}
 	}, remarkSettings);
 
 	return remarkSettings;
@@ -111,6 +105,8 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 	if (remarkSettings.plugins.length !== 0) {
 		plugins = await getPlugins(remarkSettings.plugins);
 	}
+
+	api = api.use({ settings: remarkSettings.rules });
 
 	if (plugins.length !== 0) {
 		plugins.forEach((plugin) => {
@@ -163,25 +159,19 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 		text = document.getText(range);
 	}
 
-	return new Promise((resolve, reject) => {
-		api.process(text, remarkSettings.rules, (err, result: IRemarkResult) => {
-			if (err) {
-				return reject(err);
-			}
-
-			if (result.messages.length !== 0) {
-				let message = '';
-				result.messages.forEach((message) => {
-					message += message.toString() + '\n';
-				});
-
-				return reject(message);
-			}
-
-			resolve(<IResult>{
-				content: result.contents,
-				range
+	return api.process(text).then((result) => {
+		if (result.messages.length !== 0) {
+			let message = '';
+			result.messages.forEach((message) => {
+				message += message.toString() + '\n';
 			});
+
+			return Promise.reject(message);
+		}
+
+		return Promise.resolve({
+			content: result.contents,
+			range
 		});
 	});
 }
@@ -193,7 +183,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const command = vscode.commands.registerTextEditorCommand('remark.reformat', (textEditor: vscode.TextEditor) => {
 		runRemark(textEditor.document, null)
-			.then((result) => {
+			.then((result: IResult) => {
 				textEditor.edit((editBuilder) => {
 					editBuilder.replace(result.range, result.content);
 				});
@@ -203,7 +193,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const formatCode = vscode.languages.registerDocumentRangeFormattingEditProvider(supportedDocuments, {
 		provideDocumentRangeFormattingEdits(document, range) {
-			return runRemark(document, range).then((result) => {
+			return runRemark(document, range).then((result: IResult) => {
 				return [vscode.TextEdit.replace(range, result.content)];
 			}).catch(showOutput);
 		}
