@@ -10,7 +10,9 @@
 				"--extensionDevelopmentPath=${workspaceRoot}"
 			],
 			"stopOnEntry": false,
-			"outDir": "${workspaceRoot}/out"
+			"outFiles": [
+				"${workspaceRoot}/out"
+			]
 		}
 	]
 }
