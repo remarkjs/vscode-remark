@@ -188,13 +188,13 @@
     }
   },
   "devDependencies": {
-    "@types/node": "0.0.2",
-    "tslint": "3.15.0",
-    "typescript": "^2.0.0",
-    "vscode": "^1.0.3"
+    "@types/node": "^7.0.8",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1",
+    "vscode": "^1.1.0"
   },
   "dependencies": {
-    "remark": "6.2.0",
+    "remark": "7.0.0",
     "npm-module-path": "2.0.2"
   },
   "scripts": {
