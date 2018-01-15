@@ -188,15 +188,15 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^7.0.8",
-    "tslint": "^4.5.1",
-    "tslint-config-xo": "^1.1.0",
-    "typescript": "^2.2.1",
-    "rimraf": "^2.6.1",
-    "vscode": "^1.1.0"
+    "@types/node": "^9.3.0",
+    "tslint": "^5.9.1",
+    "tslint-config-xo": "^1.4.0",
+    "typescript": "^2.6.2",
+    "rimraf": "^2.6.2",
+    "vscode": "^1.1.10"
   },
   "dependencies": {
-    "remark": "7.0.0",
+    "remark": "8.0.0",
     "npm-module-path": "2.0.2"
   },
   "scripts": {
