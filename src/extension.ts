@@ -45,9 +45,17 @@ function showOutput(msg: string): void {
 }
 
 function getWorkspaceConfig() {
-	return vscode.workspace.findFiles('**/*remarkrc', '**/node_modules/**').then((files) => {
+	return vscode.workspace.findFiles('**/*remarkrc*', '**/node_modules/**').then((files) => {
 		if (files.length === 0) {
 			return null;
+		}
+
+		if (files[0].fsPath.endsWith('.js')) {
+			try {
+				return require(files[0].fsPath);
+			} catch (err) {
+				return 'SyntaxError';
+			}
 		}
 
 		return fileRead(files[0].fsPath).then((content) => {
@@ -63,12 +71,19 @@ function getWorkspaceConfig() {
 function getPlugins(list: string[]): Promise<IPlugin[]> {
 	const root = vscode.workspace.rootPath || '';
 
-	const pluginList = list.map((name) => 'remark-' + name);
+	const pluginList = list.map((name) => {
+		if (typeof name === 'string') {
+			return 'remark-' + name;
+		} else {
+			return 'remark-' + name[0];
+		}
+	});
 
 	return resolveMany(pluginList, root).then((filepaths) => {
 		return filepaths.map((filepath, index) => <IPlugin>{
 			name: list[index],
-			package: filepath !== undefined ? require(filepath) : undefined
+			package: filepath !== undefined ? require(filepath) : undefined,
+			settings: typeof list[index] !== 'string' ? list[index][1] : undefined
 		});
 	});
 }
@@ -119,8 +134,10 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 			}
 
 			try {
-				if (remarkSettings[plugin.name]) {
-					api = api.use(plugin.package, remarkSettings[plugin.name]);
+				const settings = plugin.settings !== undefined
+					? plugin.settings : remarkSettings[plugin.name];
+				if (settings !== undefined) {
+					api = api.use(plugin.package, settings);
 				} else {
 					api = api.use(plugin.package);
 				}
