@@ -74,9 +74,9 @@ function getPlugins(list: string[]): Promise<IPlugin[]> {
 	const pluginList = list.map((name) => {
 		if (typeof name === 'string') {
 			return 'remark-' + name;
-		} else {
-			return 'remark-' + name[0];
 		}
+
+		return 'remark-' + name[0];
 	});
 
 	return resolveMany(pluginList, root).then((filepaths) => {
@@ -113,7 +113,7 @@ async function getRemarkSettings() {
 
 async function runRemark(document: vscode.TextDocument, range: vscode.Range): Promise<any> {
 	let api = remark();
-	let errors: IPluginError[] = [];
+	const errors: IPluginError[] = [];
 	const remarkSettings = await getRemarkSettings();
 
 	let plugins = [];
@@ -179,8 +179,9 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 	return api.process(text).then((result) => {
 		if (result.messages.length !== 0) {
 			let message = '';
-			result.messages.forEach((message) => {
-				message += message.toString() + '\n';
+
+			result.messages.forEach((msg) => {
+				message += msg.toString() + '\n';
 			});
 
 			return Promise.reject(message);
@@ -209,10 +210,16 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	const formatCode = vscode.languages.registerDocumentRangeFormattingEditProvider(supportedDocuments, {
-		provideDocumentRangeFormattingEdits(document, range) {
-			return runRemark(document, range).then((result: IResult) => {
-				return [vscode.TextEdit.replace(range, result.content)];
-			}).catch(showOutput);
+		async provideDocumentRangeFormattingEdits(document, range) {
+			try {
+				const action = await runRemark(document, range).then((result: IResult) => {
+					return [vscode.TextEdit.replace(range, result.content)];
+				});
+
+				return action;
+			} catch (error) {
+				showOutput(error);
+			}
 		}
 	});
 

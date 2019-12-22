@@ -6,7 +6,7 @@
   "publisher": "mrmlnc",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.9.0"
+    "vscode": "^1.30.0"
   },
   "icon": "icon.png",
   "homepage": "https://github.com/mrmlnc/vscode-remark/blob/master/README.md",
@@ -30,10 +30,12 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [{
-      "command": "remark.reformat",
-      "title": "Remark: Beautify markdown code"
-    }],
+    "commands": [
+      {
+        "command": "remark.reformat",
+        "title": "Remark: Beautify markdown code"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "Remark format configuration options",
@@ -72,23 +74,33 @@
                   "description": "Escape underscores in words."
                 },
                 "entities": {
-                  "type": ["boolean", "string"],
+                  "type": [
+                    "boolean",
+                    "string"
+                  ],
                   "default": false,
                   "description": "See values description.",
                   "oneOf": [
                     {
                       "type": "boolean",
-                      "enum": [true, false],
+                      "enum": [
+                        true,
+                        false
+                      ],
                       "description": "Entities are generated for special HTML characters (& > &amp;) and non-ASCII characters (© > &copy;). If named entities are not (widely) supported, numbered character references are used (’ > &#x2019;)."
                     },
                     {
                       "type": "string",
-                      "enum": ["numbers"],
+                      "enum": [
+                        "numbers"
+                      ],
                       "description": "Numbered entities are generated (& > &#x26;) for special HTML characters and non-ASCII characters."
                     },
                     {
                       "type": "string",
-                      "enum": ["escape"],
+                      "enum": [
+                        "escape"
+                      ],
                       "description": "Special HTML characters are encoded (& > &amp;, ’ > &#x2019;), non-ASCII characters not (ö persists)."
                     }
                   ]
@@ -116,7 +128,10 @@
                 "fence": {
                   "type": "boolean",
                   "default": "`",
-                  "enum": ["~", "`"],
+                  "enum": [
+                    "~",
+                    "`"
+                  ],
                   "description": "Fence marker to use for code blocks."
                 },
                 "fences": {
@@ -131,17 +146,23 @@
                   "oneOf": [
                     {
                       "type": "string",
-                      "enum": ["tab"],
+                      "enum": [
+                        "tab"
+                      ],
                       "description": "Use tab stops (4 spaces)."
                     },
                     {
                       "type": "string",
-                      "enum": ["1"],
+                      "enum": [
+                        "1"
+                      ],
                       "description": "Use one space."
                     },
                     {
                       "type": "string",
-                      "enum": ["mixed"],
+                      "enum": [
+                        "mixed"
+                      ],
                       "description": "use one space for tight and tab for loose list items."
                     }
                   ]
@@ -154,7 +175,11 @@
                 "rule": {
                   "type": "string",
                   "default": "*",
-                  "enum": ["-", "*", "_"],
+                  "enum": [
+                    "-",
+                    "*",
+                    "_"
+                  ],
                   "description": "Marker to use for thematic breaks (horizontal rules)."
                 },
                 "ruleRepetition ": {
@@ -171,13 +196,19 @@
                 "strong": {
                   "type": "string",
                   "default": "*",
-                  "enum": ["_", "*"],
+                  "enum": [
+                    "_",
+                    "*"
+                  ],
                   "description": "Marker to use for importance."
                 },
                 "emphasis": {
                   "type": "string",
                   "default": "_",
-                  "enum": ["_", "*"],
+                  "enum": [
+                    "_",
+                    "*"
+                  ],
                   "description": "Marker to use for emphasis."
                 }
               }
@@ -188,21 +219,21 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^7.0.8",
-    "tslint": "^4.5.1",
-    "tslint-config-xo": "^1.1.0",
-    "typescript": "^2.2.1",
-    "rimraf": "^2.6.1",
-    "vscode": "^1.1.0"
+    "@types/node": "^8.10.59",
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.1",
+    "tslint-config-xo": "^2.0.0",
+    "typescript": "^3.7.4",
+    "vscode": "^1.1.36"
   },
   "dependencies": {
-    "remark": "7.0.0",
+    "remark": "11.0.2",
     "npm-module-path": "2.0.2"
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "clean": "rimraf out",
-    "lint": "tslint src/**/*.ts",
+    "lint": "tslint src/**/*.ts --project ./tsconfig.json --format stylish",
     "compile": "tsc",
     "build": "npm run clean && npm run lint && npm run compile",
     "watch": "npm run clean && npm run lint && npm run compile -- --sourceMap --watch"
