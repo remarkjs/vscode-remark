@@ -220,6 +220,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.10.59",
+    "@types/vscode": "^1.46.0",
     "rimraf": "^3.0.0",
     "tslint": "^5.20.1",
     "tslint-config-xo": "^2.0.0",
@@ -236,6 +237,7 @@
     "lint": "tslint src/**/*.ts --project ./tsconfig.json --format stylish",
     "compile": "tsc",
     "build": "npm run clean && npm run lint && npm run compile",
-    "watch": "npm run clean && npm run lint && npm run compile -- --sourceMap --watch"
+    "watch": "npm run clean && npm run lint && npm run compile -- --sourceMap --watch",
+    "test": "node ./out/extension.js"
   }
 }
