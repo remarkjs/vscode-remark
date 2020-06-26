@@ -17,6 +17,7 @@ export async function parseWorkspaceConfig(files : vscode.Uri[]) {
 			return require(files[0].fsPath);
 		}
 		catch (err) {
+			console.error(err);
 			return 'SyntaxError';
 		}
 	}
@@ -25,6 +26,7 @@ export async function parseWorkspaceConfig(files : vscode.Uri[]) {
 		return JSON.parse(content);
 	}
 	catch (err) {
+		console.error(err);
 		return 'SyntaxError';
 	}
 }
