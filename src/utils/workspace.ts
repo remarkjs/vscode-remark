@@ -2,6 +2,7 @@
 
 import * as vscode from 'vscode';
 import { fileRead } from './fs';
+import * as yaml from 'yaml';
 
 export async function getWorkspaceConfig() {
 	const files = await vscode.workspace.findFiles('**/*remarkrc*', '**/node_modules/**');
@@ -12,7 +13,10 @@ export async function parseWorkspaceConfig(files : vscode.Uri[]) {
 	if (files.length === 0) {
 		return null;
 	}
-	if (files[0].fsPath.endsWith('.js')) {
+
+	const fileName = files[0].fsPath;
+
+	if (fileName.endsWith('.js')) {
 		try {
 			return require(files[0].fsPath);
 		}
@@ -21,8 +25,14 @@ export async function parseWorkspaceConfig(files : vscode.Uri[]) {
 			return 'SyntaxError';
 		}
 	}
+
 	const content = await fileRead(files[0].fsPath);
+	
 	try {
+		if (fileName.endsWith('.yml') || fileName.endsWith('.yaml')) {
+			return yaml.parse(content);
+		}
+		
 		return JSON.parse(content);
 	}
 	catch (err) {
