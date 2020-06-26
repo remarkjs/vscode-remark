@@ -7,7 +7,7 @@
 		"rootDirs": ["src", "out"],
 		"outDir": "out",
 		"paths": {
-			"vscode/*": ["node_modules/vscode/*"]
+			"vscode": ["node_modules/vscode"]
 		},
 		"forceConsistentCasingInFileNames": true,
 		"noUnusedLocals": true,
