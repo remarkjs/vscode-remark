@@ -3,8 +3,12 @@
 		"target": "es6",
 		"module": "commonjs",
 		"moduleResolution": "node",
-		"rootDir": "src",
+		"baseUrl": ".",
+		"rootDirs": ["src", "out"],
 		"outDir": "out",
+		"paths": {
+			"vscode/*": ["node_modules/vscode/*"]
+		},
 		"forceConsistentCasingInFileNames": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
