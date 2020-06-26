@@ -13,6 +13,7 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run compile
+      - run: cp ./node_modules/vscode/vscode.d.ts ./out/
       - name: run headless test
         uses: GabrielBB/xvfb-action@v1.0
         with:
