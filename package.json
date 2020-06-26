@@ -139,7 +139,7 @@
                   "default": false,
                   "description": "Stringify code blocks without language with fences."
                 },
-                "listItemIndent ": {
+                "listItemIndent": {
                   "type": "string",
                   "default": "tab",
                   "description": "How to indent the content from list items.",
