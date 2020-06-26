@@ -1,0 +1,19 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run lint
+      - run: npm run compile
+      - name: run headless test
+        uses: GabrielBB/xvfb-action@v1.0
+        with:
+          run: npm test
