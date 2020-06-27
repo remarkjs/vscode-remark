@@ -5,6 +5,8 @@ import { fileRead } from './fs';
 
 export async function getWorkspaceConfig() {
 	const files = await vscode.workspace.findFiles('**/*remarkrc*', '**/node_modules/**');
+	console.log('Workspace name', vscode.workspace.name);
+
 	if (files.length === 0) {
 		return null;
 	}

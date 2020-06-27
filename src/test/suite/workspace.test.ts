@@ -10,5 +10,6 @@ suite('Extension Test Suite', () => {
 
 	test('getWorkspaceConfig', async () => {
 		const config = await workspace.getWorkspaceConfig();
+		assert.notEqual(config, null);
 	});
 });
