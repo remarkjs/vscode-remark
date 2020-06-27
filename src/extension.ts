@@ -11,6 +11,7 @@ let output: vscode.OutputChannel;
 interface IPlugin {
 	name: string;
 	package: any;
+	settings: any;
 }
 
 interface IPluginError {
@@ -116,7 +117,7 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 	const errors: IPluginError[] = [];
 	const remarkSettings = await getRemarkSettings();
 
-	let plugins = [];
+	let plugins: IPlugin[] = [];
 	if (remarkSettings.plugins.length !== 0) {
 		plugins = await getPlugins(remarkSettings.plugins);
 	}
@@ -180,7 +181,7 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 		if (result.messages.length !== 0) {
 			let message = '';
 
-			result.messages.forEach((msg) => {
+			result.messages.forEach((msg: string) => {
 				message += msg.toString() + '\n';
 			});
 
@@ -200,7 +201,8 @@ export function activate(context: vscode.ExtensionContext) {
 	];
 
 	const command = vscode.commands.registerTextEditorCommand('remark.reformat', (textEditor: vscode.TextEditor) => {
-		runRemark(textEditor.document, null)
+		const emptyRange = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
+		runRemark(textEditor.document, emptyRange)
 			.then((result: IResult) => {
 				textEditor.edit((editBuilder) => {
 					editBuilder.replace(result.range, result.content);
