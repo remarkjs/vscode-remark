@@ -8,7 +8,7 @@ import * as workspace from '../../utils/workspace';
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('Sample test', () => {
-		workspace.getWorkspaceConfig();
+	test('getWorkspaceConfig', async () => {
+		const config = await workspace.getWorkspaceConfig();
 	});
 });
