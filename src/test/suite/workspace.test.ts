@@ -21,7 +21,9 @@ suite('Extension Test Suite', () => {
 	});
 
 	test('parseWorkspaceConfig', async () => {
-		const configPath = path.join(__dirname, '..', '..', '..', 'test', '.remarkrc');
+		// The configPath looks overly convoluted since `__dirname` points to the directory of the resulting .js
+		// file inside the `out` directory and not this source .ts file.
+		const configPath = path.join(__dirname, '..', '..', '..', 'src', 'test', 'suite', 'json', '.remarkrc');
 		console.log('configPath', configPath);
 		const files =  [ vscode.Uri.parse(configPath) ];
 		const config = await workspace.parseWorkspaceConfig(files);
