@@ -4,13 +4,14 @@ import * as vscode from 'vscode';
 import * as remark from 'remark';
 import { resolveMany } from 'npm-module-path';
 
-import { fileRead } from './utils/fs';
+import { getWorkspaceConfig } from './utils/workspace';
 
 let output: vscode.OutputChannel;
 
 interface IPlugin {
 	name: string;
 	package: any;
+	settings: any;
 }
 
 interface IPluginError {
@@ -42,30 +43,6 @@ function showOutput(msg: string): void {
 	output.appendLine('[Remark]');
 	output.append(msg);
 	output.show();
-}
-
-function getWorkspaceConfig() {
-	return vscode.workspace.findFiles('**/*remarkrc*', '**/node_modules/**').then((files) => {
-		if (files.length === 0) {
-			return null;
-		}
-
-		if (files[0].fsPath.endsWith('.js')) {
-			try {
-				return require(files[0].fsPath);
-			} catch (err) {
-				return 'SyntaxError';
-			}
-		}
-
-		return fileRead(files[0].fsPath).then((content) => {
-			try {
-				return JSON.parse(content);
-			} catch (err) {
-				return 'SyntaxError';
-			}
-		});
-	});
 }
 
 function getPlugins(list: string[]): Promise<IPlugin[]> {
@@ -116,7 +93,7 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 	const errors: IPluginError[] = [];
 	const remarkSettings = await getRemarkSettings();
 
-	let plugins = [];
+	let plugins: IPlugin[] = [];
 	if (remarkSettings.plugins.length !== 0) {
 		plugins = await getPlugins(remarkSettings.plugins);
 	}
@@ -180,8 +157,8 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 		if (result.messages.length !== 0) {
 			let message = '';
 
-			result.messages.forEach((msg) => {
-				message += msg.toString() + '\n';
+			result.messages.forEach((value: string) => {
+				message += value.toString() + '\n';
 			});
 
 			return Promise.reject(message);
@@ -200,7 +177,8 @@ export function activate(context: vscode.ExtensionContext) {
 	];
 
 	const command = vscode.commands.registerTextEditorCommand('remark.reformat', (textEditor: vscode.TextEditor) => {
-		runRemark(textEditor.document, null)
+		const emptyRange = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
+		runRemark(textEditor.document, emptyRange)
 			.then((result: IResult) => {
 				textEditor.edit((editBuilder) => {
 					editBuilder.replace(result.range, result.content);

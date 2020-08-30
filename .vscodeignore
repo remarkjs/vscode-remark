@@ -1,9 +1,11 @@
 .vscode/**
-typings/**
-test/**
+.vscode-test/**
+out/test/**
 src/**
 .editorconfig
 .gitignore
-.travis.yml
-tsconfig.json
-tslint.json
+vsc-extension-quickstart.md
+**/tsconfig.json
+**/.eslintrc.json
+**/*.map
+**/*.ts
