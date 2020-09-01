@@ -119,6 +119,7 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 					api = api.use(plugin.package);
 				}
 			} catch (err) {
+				console.error(err);
 				errors.push({
 					name: plugin.name,
 					err

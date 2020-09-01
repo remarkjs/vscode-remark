@@ -21,11 +21,7 @@ suite('Extension Test Suite', () => {
 		vscode.window.showInformationMessage('All tests done!');
 	});
 
-	test('parseWorkspaceConfig', async () => {
-		// The configPath looks overly convoluted since `__dirname` points to the directory of the resulting .js
-		// file inside the `out` directory and not this source .ts file.
-		const configPath = path.join(__dirname, '..', '..', '..', 'src', 'test', 'suite', 'json', '.remarkrc');
-		console.log('configPath', configPath);
+	const parseWorkspaceConfigTest = async (configPath : string) => {
 		const files =  [ vscode.Uri.parse(configPath) ];
 		const config = await workspace.parseWorkspaceConfig(files);
 
@@ -47,5 +43,19 @@ suite('Extension Test Suite', () => {
 
 		expect(check.object(config['first-heading']), 'config["first-heading"]').to.be.true;
 		expect(config['first-heading'].heading, 'config["first-heading"].heading').to.be.eq('Hello, .remarkrc file!');
+	};
+
+	test('parseWorkspaceConfig(json)', async () => {
+		// The configPath looks overly convoluted since `__dirname` points to the directory of the resulting .js
+		// file inside the `out` directory and not this source .ts file.
+		const configPath = path.join(__dirname, '..', '..', '..', 'src', 'test', 'suite', 'json', '.remarkrc');
+		await parseWorkspaceConfigTest(configPath);
+	});
+
+	test('parseWorkspaceConfig(yaml)', async () => {
+		// The configPath looks overly convoluted since `__dirname` points to the directory of the resulting .js
+		// file inside the `out` directory and not this source .ts file.
+		const configPath = path.join(__dirname, '..', '..', '..', 'src', 'test', 'suite', 'yaml', '.remarkrc.yml');
+		await parseWorkspaceConfigTest(configPath);
 	});
 });
