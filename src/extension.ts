@@ -158,7 +158,7 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 		if (result.messages.length !== 0) {
 			let message = '';
 
-			result.messages.forEach((value: string) => {
+			result.messages.forEach((value) => {
 				message += value.toString() + '\n';
 			});
 
