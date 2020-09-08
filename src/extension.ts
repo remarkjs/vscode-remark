@@ -2,6 +2,8 @@
 
 import * as vscode from 'vscode';
 import * as remark from 'remark';
+import type { VFileContents } from 'vfile';
+import type { Plugin } from 'unified';
 import { resolveMany } from 'npm-module-path';
 
 import { getWorkspaceConfig } from './utils/workspace';
@@ -10,22 +12,22 @@ let output: vscode.OutputChannel;
 
 interface IPlugin {
 	name: string;
-	package: any;
-	settings: any;
+	package: Plugin;
+	settings: unknown;
 }
 
 interface IPluginError {
 	name: string;
-	err: any;
+	err: 'Package not found' | unknown;
 }
 
 interface IRemarkSettings {
 	plugins: string[];
-	rules: any;
+	rules: remark.PartialRemarkOptions;
 }
 
 interface IResult {
-	content: string;
+	content: VFileContents;
 	range: vscode.Range;
 }
 
@@ -57,11 +59,11 @@ function getPlugins(list: string[]): Promise<IPlugin[]> {
 	});
 
 	return resolveMany(pluginList, root).then((filepaths) => {
-		return filepaths.map((filepath, index) => <IPlugin>{
+		return filepaths.map((filepath, index): IPlugin => ({
 			name: list[index],
 			package: filepath !== undefined ? require(filepath) : undefined,
 			settings: typeof list[index] !== 'string' ? list[index][1] : undefined
-		});
+		}));
 	});
 }
 
@@ -88,7 +90,7 @@ async function getRemarkSettings() {
 	return remarkSettings;
 }
 
-async function runRemark(document: vscode.TextDocument, range: vscode.Range): Promise<any> {
+async function runRemark(document: vscode.TextDocument, range: vscode.Range): Promise<IResult> {
 	let api = remark();
 	const errors: IPluginError[] = [];
 	const remarkSettings = await getRemarkSettings();
@@ -136,10 +138,10 @@ async function runRemark(document: vscode.TextDocument, range: vscode.Range): Pr
 				return;
 			}
 
-			message += `[${error.name}]: ${error.err.toString()}\n`;
+			message += `[${error.name}]: ${error.err instanceof Error && error.err.toString() || 'unknown error'}\n`;
 		});
 
-		return <any>Promise.reject(message);
+		return Promise.reject(message);
 	}
 
 	let text;
@@ -182,7 +184,7 @@ export function activate(context: vscode.ExtensionContext) {
 		runRemark(textEditor.document, emptyRange)
 			.then((result: IResult) => {
 				textEditor.edit((editBuilder) => {
-					editBuilder.replace(result.range, result.content);
+					editBuilder.replace(result.range, result.content.toString());
 				});
 			})
 			.catch(showOutput);
@@ -192,7 +194,7 @@ export function activate(context: vscode.ExtensionContext) {
 		async provideDocumentRangeFormattingEdits(document, range) {
 			try {
 				const action = await runRemark(document, range).then((result: IResult) => {
-					return [vscode.TextEdit.replace(range, result.content)];
+					return [vscode.TextEdit.replace(range, result.content.toString())];
 				});
 
 				return action;
