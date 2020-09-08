@@ -1,7 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import { fileRead } from './fs';
+import { promises as fs } from 'fs';
 import * as yaml from 'yaml';
 
 export async function getWorkspaceConfig() {
@@ -26,14 +26,14 @@ export async function parseWorkspaceConfig(files : vscode.Uri[]) {
 		}
 	}
 
-	const content = await fileRead(files[0].fsPath);
+	const content = await fs.readFile(files[0].fsPath);
 	
 	try {
 		if (fileName.endsWith('.yml') || fileName.endsWith('.yaml')) {
-			return yaml.parse(content);
+			return yaml.parse(content.toString());
 		}
 		
-		return JSON.parse(content);
+		return JSON.parse(content.toString());
 	}
 	catch (err) {
 		console.error(err);
