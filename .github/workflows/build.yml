@@ -17,6 +17,8 @@ jobs:
         with:
           run: npm test
       - name: Validate codecov.yml
+        if: matrix.os == 'ubuntu-latest'
         run: curl --data-binary @.github/codecov.yml https://codecov.io/validate
       - name: Codecov
+        if: matrix.os == 'ubuntu-latest'
         run: bash <(curl -s https://codecov.io/bash) -f coverage/coverage.json || echo 'Codecov upload failed'
