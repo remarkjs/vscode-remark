@@ -16,6 +16,7 @@ jobs:
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
-      - run: find .
+      - name: Validate codecov.yml
+        run: curl --data-binary @.github/codecov.yml https://codecov.io/validate
       - name: Codecov
         run: bash <(curl -s https://codecov.io/bash) -f coverage/coverage.json || echo 'Codecov upload failed'
