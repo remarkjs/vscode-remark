@@ -17,7 +17,9 @@ jobs:
         with:
           run: npm test
       - run: find . > files.txt
+        if: matrix.os == 'ubuntu-latest'
       - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: files.txt
           path: files.txt
