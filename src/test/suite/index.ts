@@ -39,6 +39,7 @@ function _mkDirIfExists(dir: string): void {
 
 function _readCoverOptions(testsRoot: string): ITestRunnerOptions | undefined {
     const coverConfigPath = paths.join(testsRoot, '..', '..', 'coverconfig.json');
+	console.log(`Reading cover config: ${coverConfigPath}`);
     if (fs.existsSync(coverConfigPath)) {
         const configContent = fs.readFileSync(coverConfigPath, 'utf-8');
         return JSON.parse(configContent);
@@ -47,7 +48,9 @@ function _readCoverOptions(testsRoot: string): ITestRunnerOptions | undefined {
 }
 
 function run(testsRoot: string, clb: any): any {
-    // Read configuration for the coverage file
+	console.log(`Running tests in: ${testsRoot}`);
+
+	// Read configuration for the coverage file
     const coverOptions = _readCoverOptions(testsRoot);
     if (coverOptions && coverOptions.enabled) {
         // Setup coverage pre-test, including post-test hook to report
