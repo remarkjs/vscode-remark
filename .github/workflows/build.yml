@@ -21,8 +21,8 @@ jobs:
         with:
           name: files.txt
           path: files.txt
-      - name: Fix paths # https://stackoverflow.com/questions/45602358/lcov-info-has-absolute-path-for-sf
-        run: sed -i -- 's/..\\..\\//g' coverage/lcov.info
+      # - name: Fix paths # https://stackoverflow.com/questions/45602358/lcov-info-has-absolute-path-for-sf
+      #   run: sed -i -- 's/..\\..\\//g' coverage/lcov.info
       - name: Validate codecov.yml
         if: matrix.os == 'ubuntu-latest'
         run: curl --data-binary @.github/codecov.yml https://codecov.io/validate
