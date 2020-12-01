@@ -62,8 +62,13 @@ function run(testsRoot: string, clb: any): any {
     glob('**/**.test.js', { cwd: testsRoot }, (error, files): any => {
         if (error) {
             return clb(error);
-        }
-        try {
+		}
+
+		if (files.length === 0) {
+			return clb(new Error(`No tests found in ${testsRoot}`));
+		}
+
+		try {
             // Fill into Mocha
             files.forEach((f): Mocha => mocha.addFile(paths.join(testsRoot, f)));
             // Run the tests
