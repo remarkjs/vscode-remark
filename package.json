@@ -1,5 +1,5 @@
 {
-  "name": "vscode-remark",
+  "name": "@remarkjs/vscode-remark",
   "displayName": "Remark ",
   "description": "Beautify markdown code with Remark",
   "version": "1.2.1",
