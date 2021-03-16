@@ -37,13 +37,11 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
-      - name: update package.json version
-        if: matrix.os != 'windows-latest'
-        run: cat <<< $(jq '.version = "${{ needs.gitversion.outputs.version }}"' package.json) > package.json
+      - name: npm version
+        run: npm version --no-git-tag-version ${{ needs.gitversion.outputs.version }}
       - run: npm install
       - run: npm run build
       - uses: actions/upload-artifact@v2
-        if: matrix.os == 'ubuntu-latest'
         with:
           name: vscode-remark
           path: out
