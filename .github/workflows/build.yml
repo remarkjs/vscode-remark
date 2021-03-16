@@ -16,6 +16,9 @@ jobs:
           versionSpec: '5.x'
       - uses: gittools/actions/gitversion/execute@v0.9.7
         id: gitversion
+        with:
+          useConfigFile: true
+          configFilePath: .github/gitversion.yml
 
   build:
     needs: gitversion
