@@ -3,16 +3,55 @@ name: build
 on: [push, pull_request]
 
 jobs:
+  gitversion:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gitversion.outputs.fullSemVer }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+
   build:
+    needs: gitversion
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          registry-url: https://npm.pkg.github.com
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: update package.json version
+        if: matrix.os != 'windows-latest'
+        run: cat <<< $(jq '.version = "${{ needs.gitversion.outputs.version }}"' package.json) > package.json
       - run: npm install
       - run: npm run build
-      - name: run headless test
+      - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: vscode-remark
+          path: out
+      - name: test
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
+      - name: npm publish
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish
