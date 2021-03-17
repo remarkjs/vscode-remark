@@ -11,3 +11,6 @@ out/
 
 # Visual Studio Code's user directories
 .vscode*
+
+# Visual Studio Code Extension package
+*.vsix
