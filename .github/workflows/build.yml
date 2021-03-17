@@ -3,7 +3,25 @@ name: build
 on: [push, pull_request]
 
 jobs:
+  gitversion:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gitversion.outputs.fullSemVer }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+        with:
+          useConfigFile: true
+          configFilePath: .github/gitversion.yml
+
   build:
+    needs: gitversion
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -21,13 +39,38 @@ jobs:
         run: npm version --no-git-tag-version ${{ needs.gitversion.outputs.version }}
       - run: npm install
       - run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: vscode-remark
+          path: |
+            out
+            package*.json
       - name: test
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
-      - name: vsce package
-        run: $(npm bin)/vsce package
-      - uses: actions/upload-artifact@v2
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-npm
         with:
-          name: vscode-remark.vsix
-          path: '*.vsix'
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+      - uses: actions/download-artifact@v2
+        with:
+          name: vscode-remark
+      - run: npm install
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: https://npm.pkg.github.com
+          scope: '@remarkjs'
+      - name: npm config
+        run: npm config set registry https://npm.pkg.github.com/@remarkjs
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
