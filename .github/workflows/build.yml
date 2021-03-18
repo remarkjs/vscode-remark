@@ -67,10 +67,9 @@ jobs:
       - run: npm install
       - uses: actions/setup-node@v2
         with:
-          registry-url: https://npm.pkg.github.com
-          scope: '@remarkjs'
+          registry-url: https://npm.pkg.github.com/@remarkjs
       - name: npm config
-        run: npm config set registry https://npm.pkg.github.com/@remarkjs
+        run: echo "registry=https://npm.pkg.github.com/@remarkjs" >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
