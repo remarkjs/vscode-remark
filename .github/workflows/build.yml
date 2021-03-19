@@ -67,7 +67,7 @@ jobs:
       - run: npm install
       - uses: actions/setup-node@v2
         with:
-          registry-url: https://npm.pkg.github.com/@remarkjs
+          registry-url: https://npm.pkg.github.com/
       - name: npm config
         run: echo "registry=https://npm.pkg.github.com/@remarkjs" >> .npmrc
       - run: npm publish
