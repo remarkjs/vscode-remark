@@ -69,7 +69,7 @@ jobs:
         with:
           registry-url: https://npm.pkg.github.com/
       - name: npm config
-        run: echo "registry=https://npm.pkg.github.com/@remarkjs" >> .npmrc
+        run: echo "registry=https://npm.pkg.github.com" >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
