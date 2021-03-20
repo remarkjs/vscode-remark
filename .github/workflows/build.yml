@@ -3,25 +3,7 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  gitversion:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.gitversion.outputs.fullSemVer }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: gittools/actions/gitversion/setup@v0.9.7
-        with:
-          versionSpec: '5.x'
-      - uses: gittools/actions/gitversion/execute@v0.9.7
-        id: gitversion
-        with:
-          useConfigFile: true
-          configFilePath: .github/gitversion.yml
-
   build:
-    needs: gitversion
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -35,8 +17,6 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
-      - name: npm version
-        run: npm version --no-git-tag-version ${{ needs.gitversion.outputs.version }}
       - run: npm install
       - run: npm run build
       - uses: actions/upload-artifact@v2
@@ -47,8 +27,20 @@ jobs:
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+      - run: npm install
       - name: vsce package
-        if: matrix.os != 'windows-latest'
         run: $(npm bin)/vsce package
       - uses: actions/upload-artifact@v2
         with:
