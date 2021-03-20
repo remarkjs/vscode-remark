@@ -48,6 +48,7 @@ jobs:
         with:
           run: npm test
       - name: vsce package
+        if: matrix.os != 'windows-latest'
         run: $(npm bin)/vsce package
       - uses: actions/upload-artifact@v2
         with:
