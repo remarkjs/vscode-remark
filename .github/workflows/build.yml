@@ -40,6 +40,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
       - run: npm install
+      - run: npm run build
       - name: vsce package
         run: $(npm bin)/vsce package
       - uses: actions/upload-artifact@v2
