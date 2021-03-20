@@ -41,35 +41,9 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v2
         with:
-          name: vscode-remark
-          path: |
-            out
-            package*.json
+          name: out
+          path: out
       - name: test
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/cache@v2
-        env:
-          cache-name: cache-npm
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
-      - uses: actions/download-artifact@v2
-        with:
-          name: vscode-remark
-      - run: npm install
-      - uses: actions/setup-node@v2
-        with:
-          registry-url: https://npm.pkg.github.com/
-      - name: npm config
-        run: echo "registry=https://npm.pkg.github.com" >> .npmrc
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
