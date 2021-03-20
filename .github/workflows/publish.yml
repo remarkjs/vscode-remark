@@ -1,6 +1,8 @@
 name: publish
 
-on: [push, pull_request]
+on:
+  release:
+    types: [published]
 
 jobs:
   publish:
