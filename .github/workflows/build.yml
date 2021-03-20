@@ -47,3 +47,9 @@ jobs:
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
+      - name: vsce package
+        run: $(npm bin)/vsce package
+      - uses: actions/upload-artifact@v2
+        with:
+          name: vscode-remark.vsix
+          path: '*.vsix'
