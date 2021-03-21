@@ -244,14 +244,6 @@
     "remark": "^13.0.0",
     "yaml": "^1.10.0"
   },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "all": true,
-    "reporter": [
-      "text",
-      "lcov"
-    ]
-  },
   "scripts": {
     "clean": "rimraf out",
     "lint": "eslint src --ext ts",
