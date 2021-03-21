@@ -24,10 +24,10 @@ jobs:
           cache-name: cache-npm
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
       - name: npm version
-        run: npm version --no-git-tag-version ${{ steps.gitversion.outputs.fullSemVer }}
+        run: npm version --no-git-tag-version ${{steps.gitversion.outputs.fullSemVer}}
       - run: npm install
       - run: npm run build
       - name: vsce package
@@ -37,4 +37,4 @@ jobs:
           name: vscode-remark.vsix
           path: '*.vsix'
       - name: vsce publish
-        run: $(npm bin)/vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+        run: $(npm bin)/vsce publish --pat ${{secrets.VSCE_TOKEN}}

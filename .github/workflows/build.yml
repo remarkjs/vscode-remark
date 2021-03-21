@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -15,8 +15,8 @@ jobs:
           cache-name: cache-npm
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
       - run: npm install
       - run: npm run build
       - uses: actions/upload-artifact@v2
@@ -37,8 +37,8 @@ jobs:
           cache-name: cache-npm
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
       - run: npm install
       - run: npm run build
       - name: vsce package
