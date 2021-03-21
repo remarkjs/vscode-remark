@@ -3,16 +3,16 @@
   "displayName": "Remark ",
   "description": "Beautify markdown code with Remark",
   "version": "1.2.1",
-  "publisher": "mrmlnc",
+  "publisher": "unifiedjs",
   "license": "MIT",
   "engines": {
     "vscode": "^1.46.0"
   },
   "icon": "icon.png",
-  "homepage": "https://github.com/mrmlnc/vscode-remark/blob/master/README.md",
+  "homepage": "https://github.com/remarkjs/vscode-remark/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mrmlnc/vscode-remark"
+    "url": "https://github.com/remarkjs/vscode-remark"
   },
   "keywords": [
     "markdown",
@@ -234,6 +234,7 @@
     "mocha": "^7.1.2",
     "rimraf": "^3.0.2",
     "typescript": "^3.8.3",
+    "vsce": "^1.87.0",
     "vscode-test": "^1.3.0"
   },
   "dependencies": {
@@ -242,7 +243,6 @@
     "yaml": "^1.10.0"
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
     "clean": "rimraf out",
     "lint": "eslint src --ext ts",
     "compile": "tsc -p ./",

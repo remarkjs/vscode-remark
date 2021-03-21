@@ -7,12 +7,43 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
       - run: npm install
       - run: npm run build
-      - name: run headless test
+      - uses: actions/upload-artifact@v2
+        with:
+          name: out
+          path: out
+      - name: test
         uses: GabrielBB/xvfb-action@v1.4
         with:
           run: npm test
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
+      - run: npm install
+      - run: npm run build
+      - name: vsce package
+        run: $(npm bin)/vsce package
+      - uses: actions/upload-artifact@v2
+        with:
+          name: vscode-remark.vsix
+          path: '*.vsix'

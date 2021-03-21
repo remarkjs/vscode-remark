@@ -1,0 +1,40 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+        with:
+          useConfigFile: true
+          configFilePath: .github/gitversion.yml
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
+      - name: npm version
+        run: npm version --no-git-tag-version ${{steps.gitversion.outputs.fullSemVer}}
+      - run: npm install
+      - run: npm run build
+      - name: vsce package
+        run: $(npm bin)/vsce package
+      - uses: actions/upload-artifact@v2
+        with:
+          name: vscode-remark.vsix
+          path: '*.vsix'
+      - name: vsce publish
+        run: $(npm bin)/vsce publish --pat ${{secrets.VSCE_TOKEN}}
