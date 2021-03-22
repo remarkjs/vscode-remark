@@ -16,4 +16,4 @@ out/
 *.vsix
 
 coverage
-\.nyc_output
+.nyc_output
