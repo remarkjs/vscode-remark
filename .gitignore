@@ -14,3 +14,6 @@ out/
 
 # Visual Studio Code Extension package
 *.vsix
+
+coverage
+.nyc_output
