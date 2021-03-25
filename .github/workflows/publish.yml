@@ -30,11 +30,26 @@ jobs:
         run: npm version --no-git-tag-version ${{steps.gitversion.outputs.fullSemVer}}
       - run: npm install
       - run: npm run build
-      - name: vsce package
-        run: $(npm bin)/vsce package
+      - name: ovsx publish
+        uses: HaaLeo/publish-vscode-extension@v0
+        id: ovsx_publish
+        with:
+          pat: ${{secrets.OPEN_VSX_TOKEN}}
+      - name: vsce publish
+        uses: HaaLeo/publish-vscode-extension@v0
+        with:
+          pat: ${{secrets.VSCE_TOKEN}}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: ${{steps.ovsx_publish.outputs.vsixPath}}
+          packagePath: ''
       - uses: actions/upload-artifact@v2
         with:
           name: vscode-remark.vsix
-          path: '*.vsix'
-      - name: vsce publish
-        run: $(npm bin)/vsce publish --pat ${{secrets.VSCE_TOKEN}}
+          path: ${{steps.ovsx_publish.outputs.vsixPath}}
+      - name: upload vsix to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          file: ${{steps.ovsx_publish.outputs.vsixPath}}
+          asset_name: vscode-remark.vsix
+          tag: ${{github.ref}}
