@@ -230,7 +230,7 @@
     "@typescript-eslint/parser": "^4.0.0",
     "chai": "^4.2.0",
     "check-types": "^11.1.2",
-    "eslint": "^7.0.0",
+    "eslint": "^7.22.0",
     "glob": "^7.1.6",
     "mocha": "^8.0.0",
     "nyc": "^15.1.0",
