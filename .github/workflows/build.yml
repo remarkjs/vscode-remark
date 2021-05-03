@@ -24,7 +24,7 @@ jobs:
           name: out
           path: out
       - name: test
-        uses: GabrielBB/xvfb-action@v1.4
+        uses: GabrielBB/xvfb-action@v1.5
         env:
           COVERAGE: true
         with:
