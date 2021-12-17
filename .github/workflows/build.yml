@@ -6,7 +6,7 @@ jobs:
   version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.gitversion.outputs.fullSemVer }}
+      version: ${{steps.gitversion.outputs.fullSemVer}}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -38,8 +38,10 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v2
         with:
-          name: out
-          path: out
+          name: vscode-remark
+          path: |
+            out
+            package*.json
       - name: test
         uses: GabrielBB/xvfb-action@v1.6
         env:
@@ -74,9 +76,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: out
-          path: .
-      - run: ls -la
+          name: vscode-remark
       - uses: actions/setup-node@v2
         with:
           registry-url: https://npm.pkg.github.com
