@@ -59,6 +59,7 @@ jobs:
         with:
           name: out
           path: .
+      - run: ls -la
       - uses: actions/setup-node@v2
         with:
           registry-url: https://npm.pkg.github.com
