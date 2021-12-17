@@ -50,3 +50,19 @@ jobs:
         with:
           name: vscode-remark.vsix
           path: '*.vsix'
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: out
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: https://npm.pkg.github.com
+      - name: npm scope
+        run: npm init -y --scope ${{github.repository_owner}}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
