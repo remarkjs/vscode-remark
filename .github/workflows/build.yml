@@ -58,6 +58,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: out
+          path: .
       - uses: actions/setup-node@v2
         with:
           registry-url: https://npm.pkg.github.com
