@@ -259,6 +259,7 @@
     "rules": {
       "@typescript-eslint/naming-convention": "off",
       "@typescript-eslint/no-base-to-string": "off",
+      "@typescript-eslint/no-floating-promises": "off",
       "@typescript-eslint/no-implicit-any-catch": "off",
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",

@@ -10,12 +10,12 @@ import * as workspace from '../../utils/workspace'
 const expect = chai.expect
 
 suite('Extension Test Suite', () => {
-  before(async () => {
-    await vscode.window.showInformationMessage('Start all tests.')
+  before(() => {
+    vscode.window.showInformationMessage('Start all tests.')
   })
 
-  after(async () => {
-    await vscode.window.showInformationMessage('All tests done!')
+  after(() => {
+    vscode.window.showInformationMessage('All tests done!')
   })
 
   const parseWorkspaceConfigTest = async (configPath: string) => {
