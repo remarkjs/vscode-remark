@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft-04/schema",
+  "properties": {
+    "remarkConfig": {
+      "description": "Remark configuration",
+      "$ref": "https://json.schemastore.org/remarkrc"
+    }
+  }
+}
