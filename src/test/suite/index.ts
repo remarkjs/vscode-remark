@@ -1,6 +1,5 @@
-'use strict'
-
 import * as path from 'path'
+import * as process from 'process'
 import * as Mocha from 'mocha'
 import * as glob from 'glob'
 
@@ -33,16 +32,16 @@ export async function run(): Promise<void> {
   })
   const testsRoot = path.resolve(__dirname, '..')
   const files = glob.sync('**/*.test.js', {cwd: testsRoot})
-  files.forEach((f) => mocha.addFile(path.resolve(testsRoot, f)))
+  for (const f of files) mocha.addFile(path.resolve(testsRoot, f))
 
   try {
-    await new Promise((resolve, reject) =>
-      mocha.run((failures) =>
+    await new Promise((resolve, reject) => {
+      mocha.run((failures) => {
         failures
           ? reject(new Error(`${failures} tests failed`))
           : resolve(undefined)
-      )
-    )
+      })
+    })
   } finally {
     if (nyc) {
       nyc.writeCoverageFile()

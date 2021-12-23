@@ -1,24 +1,21 @@
 'use strict'
 
-import * as vscode from 'vscode'
-import * as workspace from '../../utils/workspace'
-import {after} from 'mocha'
-import {before} from 'mocha'
-import * as chai from 'chai'
 import * as path from 'path'
+import * as vscode from 'vscode'
+import {after, before} from 'mocha'
+import * as chai from 'chai'
 import * as check from 'check-types'
+import * as workspace from '../../utils/workspace'
 
-const assert = chai.assert
 const expect = chai.expect
-const should = chai.should()
 
 suite('Extension Test Suite', () => {
-  before(() => {
-    vscode.window.showInformationMessage('Start all tests.')
+  before(async () => {
+    await vscode.window.showInformationMessage('Start all tests.')
   })
 
-  after(() => {
-    vscode.window.showInformationMessage('All tests done!')
+  after(async () => {
+    await vscode.window.showInformationMessage('All tests done!')
   })
 
   const parseWorkspaceConfigTest = async (configPath: string) => {

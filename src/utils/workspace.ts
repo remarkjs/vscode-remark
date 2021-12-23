@@ -1,7 +1,5 @@
-'use strict'
-
-import * as vscode from 'vscode'
 import {promises as fs} from 'fs'
+import * as vscode from 'vscode'
 import * as yaml from 'yaml'
 
 export async function getWorkspaceConfig() {
@@ -9,7 +7,7 @@ export async function getWorkspaceConfig() {
     '**/*remarkrc*',
     '**/node_modules/**'
   )
-  return await parseWorkspaceConfig(files)
+  return parseWorkspaceConfig(files)
 }
 
 export async function parseWorkspaceConfig(files: vscode.Uri[]) {
@@ -22,8 +20,8 @@ export async function parseWorkspaceConfig(files: vscode.Uri[]) {
   if (fileName.endsWith('.js')) {
     try {
       return require(files[0].fsPath)
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
       return 'SyntaxError'
     }
   }
@@ -36,8 +34,8 @@ export async function parseWorkspaceConfig(files: vscode.Uri[]) {
     }
 
     return JSON.parse(content.toString())
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
     return 'SyntaxError'
   }
 }
