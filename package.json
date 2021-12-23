@@ -1,6 +1,6 @@
 {
   "name": "vscode-remark",
-  "displayName": "Remark ",
+  "displayName": "Remark",
   "description": "Beautify markdown code with Remark",
   "version": "1.2.1",
   "publisher": "unifiedjs",
