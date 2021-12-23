@@ -1,6 +1,6 @@
 plugins:
-- first-heading
-- github
+  - first-heading
+  - github
 settings:
   closeAtx: true
 github:
