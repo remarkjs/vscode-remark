@@ -300,7 +300,7 @@
   },
   "scripts": {
     "clean": "rimraf out",
-    "lint": "eslint src --ext ts",
+    "lint": "xo",
     "compile": "tsc -p ./",
     "build": "npm run clean && npm run lint && npm run compile",
     "watch": "tsc -watch -p ./",
