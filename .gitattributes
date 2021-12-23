@@ -1,0 +1,6 @@
+# Settle on line feeds, even for Windows users. This is also enforced by prettier and editorconfig.
+* text eol=lf
+
+# Treat images as such.
+*.gif binary diff=image
+*.png binary diff=image

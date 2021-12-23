@@ -1,5 +1,3 @@
-'use strict'
-
 import * as vscode from 'vscode'
 import * as remark from 'remark'
 import type {VFileContents} from 'vfile'
@@ -34,8 +32,8 @@ interface IResult {
 /**
  * Show message in output channel.
  */
-function showOutput(msg: string): void {
-  msg = msg.toString()
+function showOutput(message: string): void {
+  message = message.toString()
 
   if (!output) {
     output = vscode.window.createOutputChannel('Remark')
@@ -43,12 +41,12 @@ function showOutput(msg: string): void {
 
   output.clear()
   output.appendLine('[Remark]')
-  output.append(msg)
+  output.append(message)
   output.show()
 }
 
-function getPlugins(list: string[]): Promise<IPlugin[]> {
-  const root = vscode.workspace.rootPath || ''
+async function getPlugins(list: string[]): Promise<IPlugin[]> {
+  const root = vscode.workspace.rootPath ?? ''
 
   const pluginList = list.map((name) => {
     if (typeof name === 'string') {
@@ -62,8 +60,8 @@ function getPlugins(list: string[]): Promise<IPlugin[]> {
     return filepaths.map(
       (filepath, index): IPlugin => ({
         name: list[index],
-        package: filepath !== undefined ? require(filepath) : undefined,
-        settings: typeof list[index] !== 'string' ? list[index][1] : undefined
+        package: filepath === undefined ? undefined : require(filepath),
+        settings: typeof list[index] === 'string' ? undefined : list[index][1]
       })
     )
   })
@@ -76,7 +74,8 @@ async function getRemarkSettings() {
   if (vscode.workspace.rootPath) {
     config = await getWorkspaceConfig()
   }
-  if (config && Object.keys(config).length !== 0) {
+
+  if (config && Object.keys(config).length > 0) {
     remarkSettings = config
     remarkSettings.rules = config.settings
     remarkSettings.plugins = config.plugins || []
@@ -87,10 +86,10 @@ async function getRemarkSettings() {
     .getConfiguration('remark')
     .get<IRemarkSettings>('format')
   remarkSettings = Object.assign(
-    <IRemarkSettings>{
+    {
       plugins: [],
       rules: {}
-    },
+    } as IRemarkSettings,
     remarkSettings
   )
 
@@ -106,64 +105,65 @@ async function runRemark(
   const remarkSettings = await getRemarkSettings()
 
   let plugins: IPlugin[] = []
-  if (remarkSettings.plugins.length !== 0) {
+  if (remarkSettings.plugins.length > 0) {
     plugins = await getPlugins(remarkSettings.plugins)
   }
 
   api = api.use({settings: remarkSettings.rules})
 
-  if (plugins.length !== 0) {
-    plugins.forEach((plugin) => {
+  if (plugins.length > 0) {
+    for (const plugin of plugins) {
       if (plugin.package === undefined) {
         errors.push({
           name: plugin.name,
           err: 'Package not found'
         })
-        return
+        continue
       }
 
       try {
         const settings =
-          plugin.settings !== undefined
-            ? plugin.settings
-            : remarkSettings[plugin.name]
-        if (settings !== undefined) {
-          api = api.use(plugin.package, settings)
-        } else {
-          api = api.use(plugin.package)
-        }
-      } catch (err) {
-        console.error(err)
+          plugin.settings === undefined
+            ? remarkSettings[plugin.name]
+            : plugin.settings
+        api =
+          settings === undefined
+            ? api.use(plugin.package)
+            : api.use(plugin.package, settings)
+      } catch (error) {
+        console.error(error)
         errors.push({
           name: plugin.name,
-          err
+          err: error
         })
       }
-    })
+    }
   }
 
-  if (errors.length !== 0) {
+  if (errors.length > 0) {
     let message = ''
-    errors.forEach((error) => {
+    for (const error of errors) {
       if (error.err === 'Package not found') {
         message += `[${
           error.name
         }]: ${error.err.toString()}. Use **npm i remark-${
           error.name
         }** or **npm i -g remark-${error.name}**.\n`
-        return
+        continue
       }
 
       message += `[${error.name}]: ${
         (error.err instanceof Error && error.err.toString()) || 'unknown error'
       }\n`
-    })
+    }
 
     return Promise.reject(message)
   }
 
   let text
-  if (!range) {
+  if (range) {
+    text = document.getText(range)
+  } else {
     const lastLine = document.lineAt(document.lineCount - 1)
     const start = new vscode.Position(0, 0)
     const end = new vscode.Position(
@@ -173,17 +173,15 @@ async function runRemark(
 
     range = new vscode.Range(start, end)
     text = document.getText()
-  } else {
-    text = document.getText(range)
   }
 
-  return api.process(text).then((result) => {
-    if (result.messages.length !== 0) {
+  return api.process(text).then(async (result) => {
+    if (result.messages.length > 0) {
       let message = ''
 
-      result.messages.forEach((value) => {
+      for (const value of result.messages) {
         message += value.toString() + '\n'
-      })
+      }
 
       return Promise.reject(message)
     }
@@ -208,11 +206,11 @@ export function activate(context: vscode.ExtensionContext) {
         new vscode.Position(0, 0)
       )
       runRemark(textEditor.document, emptyRange)
-        .then((result: IResult) => {
+        .then((result: IResult) =>
           textEditor.edit((editBuilder) => {
             editBuilder.replace(result.range, result.content.toString())
           })
-        })
+        )
         .catch(showOutput)
     }
   )
@@ -232,7 +230,7 @@ export function activate(context: vscode.ExtensionContext) {
             )
 
             return action
-          } catch (error) {
+          } catch (error: any) {
             showOutput(error)
           }
         }
@@ -240,6 +238,5 @@ export function activate(context: vscode.ExtensionContext) {
     )
 
   // Subscriptions
-  context.subscriptions.push(command)
-  context.subscriptions.push(formatCode)
+  context.subscriptions.push(command, formatCode)
 }
