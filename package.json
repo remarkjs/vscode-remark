@@ -217,6 +217,20 @@
         }
       }
     },
+    "jsonValidation": [
+      {
+        "fileMatch": ".remarkrc",
+        "url": "https://json.schemastore.org/remarkrc"
+      },
+      {
+        "fileMatch": ".remarkrc.json",
+        "url": "https://json.schemastore.org/remarkrc"
+      },
+      {
+        "fileMatch": "package.json",
+        "url": "./package-json-schema.json"
+      }
+    ],
     "languages": [
       {
         "id": "ignore",
