@@ -216,7 +216,21 @@
           }
         }
       }
-    }
+    },
+    "languages": [
+      {
+        "id": "ignore",
+        "extensions": [
+          ".remarkignore"
+        ]
+      },
+      {
+        "id": "json",
+        "filenames": [
+          ".remarkrc"
+        ]
+      }
+    ]
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
