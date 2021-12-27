@@ -8,19 +8,6 @@
   "engines": {
     "vscode": "^1.46.0"
   },
-  "remarkConfig": {
-    "plugins": [
-      "preset-wooorm",
-      [
-        "lint-no-emphasis-as-heading",
-        false
-      ],
-      [
-        "lint-no-html",
-        false
-      ]
-    ]
-  },
   "icon": "icon.png",
   "homepage": "https://github.com/remarkjs/vscode-remark#readme",
   "repository": {
@@ -71,6 +58,19 @@
           ".remarkrc"
         ]
       }
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm",
+      [
+        "lint-no-emphasis-as-heading",
+        false
+      ],
+      [
+        "lint-no-html",
+        false
+      ]
     ]
   },
   "prettier": {
