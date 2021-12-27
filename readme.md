@@ -9,8 +9,7 @@
 
 **[remark][]** is a tool that transforms markdown with plugins.
 These plugins can inspect and change your markup.
-You can use remark on the server, the client, CLIs, deno, etc.
-This plugin for Visual Studio Code lets you format and lint markdown files using
+This plugin for Visual Studio Code lets you format and lint markdown files with
 remark.
 
 ## Contents
@@ -27,8 +26,12 @@ remark.
 
 ## When should I use this?
 
-If your project is checked using [`remark-cli`][remark-cli] and you use Visual
-Studio Code to edit markdown files, it’s recommended to use this extension.
+If you wish to apply code quality checks on your markdown files, this extension
+is for you.
+This extension allows you to check and format markdown files right in your
+editor.
+[`remark-cli`][remark-cli] can be used to ensure consitent formatting in CI.
+it’s recommended to use that in combination with this extension.
 
 ## Use
 
@@ -85,7 +88,7 @@ Optionally enable format on save:
 
 The **remark** ecosystem has a variety of plugins available.
 Most notably you’ll want to check out [`remark-lint`][remark-lint].
-A curated list of plugins can be found [here][list-of-plugins].
+See this curated [list of plugins][list-of-plugins] for more remark plugins.
 
 ## Syntax
 
