@@ -94,23 +94,23 @@
     "esbuild": "^0.14.0",
     "prettier": "^2.0.0",
     "remark-cli": "^10.0.0",
+    "remark-language-server": "^1.0.0",
     "remark-preset-wooorm": "^9.0.0",
+    "rimraf": "^3.0.0",
     "tape": "^5.0.0",
     "typescript": "^4.0.0",
     "vsce": "^2.0.0",
+    "vscode-languageclient": "^7.0.0",
     "vscode-test": "^1.0.0",
     "xo": "^0.47.0"
   },
-  "dependencies": {
-    "remark-language-server": "^1.0.0",
-    "vscode-languageclient": "^7.0.0"
-  },
   "scripts": {
-    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --minify --sourcemap --format=cjs --outfile=out/remark-language-server.js",
-    "build:extension": "esbuild src/extension.js --bundle --platform=node --minify --sourcemap --format=cjs --external:vscode --outfile=out/extension.js",
+    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --minify --format=cjs --outfile=out/remark-language-server.js",
+    "build:extension": "esbuild src/extension.js --bundle --platform=node --minify --format=cjs --external:vscode --outfile=out/extension.js",
     "lint": "xo",
-    "build": "npm run build:language-server && npm run build:extension",
+    "build": "rimraf out && npm run build:language-server && npm run build:extension",
     "pretest": "npm run build && npm run lint",
-    "test": "node ./test.js"
+    "test": "node ./test.js",
+    "vscode:prepublish": "npm run build"
   }
 }
