@@ -1,12 +1,12 @@
-const path = require('path')
+import path from 'path'
 
-const {workspace} = require('vscode')
-const {LanguageClient} = require('vscode-languageclient/node')
+import {workspace} from 'vscode'
+import {LanguageClient} from 'vscode-languageclient/node.js'
 
 /**
  * @param {import('vscode').ExtensionContext} context
  */
-function activate(context) {
+export function activate(context) {
   const command = 'node'
   const args = [path.join(__dirname, 'remark-language-server.js'), '--stdio']
 
@@ -42,5 +42,3 @@ function activate(context) {
 
   context.subscriptions.push(client.start())
 }
-
-module.exports.activate = activate
