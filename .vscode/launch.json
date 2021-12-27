@@ -6,7 +6,6 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "console": "integratedTerminal",
       "args": [
         "${workspaceFolder}/README.md",
         "--extensionDevelopmentPath=${workspaceFolder}"
@@ -16,7 +15,7 @@
       "name": "Remark language server",
       "type": "node",
       "request": "attach",
-      "port": 6009,
+      "port": 6009
     }
   ],
   "compounds": [
