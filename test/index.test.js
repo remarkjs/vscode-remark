@@ -1,5 +1,4 @@
 const path = require('path')
-const tape = require('tape')
 
 const test = require('tape')
 const {
@@ -10,7 +9,6 @@ const {
   workspace,
   Position
 } = require('vscode')
-const {DiagnosticSeverity} = require('vscode-languageclient')
 
 /**
  * Wait for a given amount of time.
@@ -55,6 +53,6 @@ module.exports.run = () =>
       ])
     })
 
-    tape.onFinish(resolve)
-    tape.onFailure(reject)
+    test.onFinish(resolve)
+    test.onFailure(reject)
   })
