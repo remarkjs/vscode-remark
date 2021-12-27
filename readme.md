@@ -58,12 +58,12 @@ be reported in the *Problems* pane in your editor.
 
 This extension can be used as a formatter for markdown files.
 
-To format a file, first press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.
+To format a file, first press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.
 Search for and select `Format Document With…`.
 Now select `Remark`.
 
 To make this the default formatter, add the following to your `settings.json`
-(Open with <kbd>Ctrl</kbd>+<kbd>,</kbd>):
+(Open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
 
 ```json
 {
