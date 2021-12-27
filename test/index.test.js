@@ -30,7 +30,7 @@ module.exports.run = () =>
       const ext = extensions.getExtension('unifiedjs.vscode-remark')
       await ext?.activate()
 
-      const uri = Uri.file(path.resolve(__dirname, '../README.md'))
+      const uri = Uri.file(path.resolve(__dirname, '../readme.md'))
       const doc = await workspace.openTextDocument(uri)
       const editor = await window.showTextDocument(doc)
       editor.edit((builder) => {

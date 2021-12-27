@@ -7,7 +7,7 @@
       "request": "launch",
       "runtimeExecutable": "${execPath}",
       "args": [
-        "${workspaceFolder}/README.md",
+        "${workspaceFolder}/readme.md",
         "--extensionDevelopmentPath=${workspaceFolder}"
       ]
     },

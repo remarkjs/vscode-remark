@@ -22,7 +22,7 @@
     ]
   },
   "icon": "icon.png",
-  "homepage": "https://github.com/remarkjs/vscode-remark/blob/master/README.md",
+  "homepage": "https://github.com/remarkjs/vscode-remark#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/remarkjs/vscode-remark"
