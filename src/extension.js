@@ -1,3 +1,5 @@
+const path = require('path')
+
 const {workspace} = require('vscode')
 const {LanguageClient} = require('vscode-languageclient/node')
 
@@ -5,18 +7,15 @@ const {LanguageClient} = require('vscode-languageclient/node')
  * @param {import('vscode').ExtensionContext} context
  */
 function activate(context) {
-  const command = require.resolve('remark-language-server')
-  const args = ['--stdio']
+  const command = 'node'
+  const args = [path.join(__dirname, 'remark-language-server.js'), '--stdio']
 
   /**
    * @type {import('vscode-languageclient/node').ServerOptions}
    */
   const serverOptions = {
     run: {command, args},
-    debug: {
-      command: 'node',
-      args: ['--inspect=6009', command, ...args]
-    }
+    debug: {command, args: ['--inspect=6009', ...args]}
   }
 
   /**

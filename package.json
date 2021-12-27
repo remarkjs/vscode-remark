@@ -42,7 +42,7 @@
   "activationEvents": [
     "onLanguage:markdown"
   ],
-  "main": "./src/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "jsonValidation": [
       {
@@ -91,6 +91,7 @@
     "@types/tape": "^4.0.0",
     "@types/vscode": "^1.0.0",
     "@vscode/test-electron": "^2.0.0",
+    "esbuild": "^0.14.0",
     "prettier": "^2.0.0",
     "remark-cli": "^10.0.0",
     "remark-preset-wooorm": "^9.0.0",
@@ -105,12 +106,11 @@
     "vscode-languageclient": "^7.0.0"
   },
   "scripts": {
-    "clean": "rimraf out",
+    "build:language-server": "esbuild node_modules/.bin/remark-language-server --bundle --platform=node --minify --sourcemap --format=cjs --outfile=out/remark-language-server.js",
+    "build:extension": "esbuild src/extension.js --bundle --platform=node --minify --sourcemap --format=cjs --external:vscode --outfile=out/extension.js",
     "lint": "xo",
-    "compile": "tsc -p ./",
-    "build": "npm run clean && npm run lint && npm run compile",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "build": "npm run build:language-server && npm run build:extension",
+    "pretest": "npm run build && npm run lint",
     "test": "node ./test.js"
   }
 }
