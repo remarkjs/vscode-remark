@@ -12,7 +12,7 @@ remark.
 
 ## Contents
 
-*   [WHat is this?](#what-is-this)
+*   [What is this?](#what-is-this)
 *   [When should I use this?](#when-should-i-use-this)
 *   [Use](#use)
     *   [Formatting](#formatting)
@@ -23,7 +23,7 @@ remark.
 *   [Contribute](#contribute)
 *   [License](#license)
 
-## WHat is this?
+## What is this?
 
 **[remark][]** is a tool that transforms markdown with plugins.
 These plugins can inspect and change your markup.
