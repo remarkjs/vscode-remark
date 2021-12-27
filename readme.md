@@ -41,7 +41,8 @@ it’s recommended to use that in combination with this extension.
 
 To start using this for a project, [`remark-cli`][remark-cli] needs to be
 configured first.
-For example, install `remark-cli` and `remark-preset-lint-recommended`:
+First, install `remark-cli` and a plugin or preset.
+Let’s use `remark-preset-lint-recommended` for our example.
 
 ```sh
 npm install remark-cli remark-preset-lint-recommended
@@ -51,12 +52,25 @@ Now create a file named `.remarkrc.json` with the following content:
 
 ```json
 {
-  "plugins": [["preset-lint-recommended"]]
+  "plugins": ["preset-lint-recommended"]
 }
 ```
 
+Now let’s create a markdown file `readme.md` and add the following content:
+
+```markdown
+# My project
+
+This is a [broken link][]
+
+- A `*` should be used for list items
+- Also 4 spaces should be used for indentation
+
+[unused reference]: https://example.com
+```
+
 Now any syntax which doesn’t comply with `remark-preset-lint-recommended` will
-be reported in the *Problems* pane in your editor.
+be reported using squiggly lines in your editor and in the `Problems` pane.
 
 ### Formatting
 
