@@ -106,7 +106,7 @@
     "vscode-languageclient": "^7.0.0"
   },
   "scripts": {
-    "build:language-server": "esbuild node_modules/.bin/remark-language-server --bundle --platform=node --minify --sourcemap --format=cjs --outfile=out/remark-language-server.js",
+    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --minify --sourcemap --format=cjs --outfile=out/remark-language-server.js",
     "build:extension": "esbuild src/extension.js --bundle --platform=node --minify --sourcemap --format=cjs --external:vscode --outfile=out/extension.js",
     "lint": "xo",
     "build": "npm run build:language-server && npm run build:extension",
