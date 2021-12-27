@@ -7,13 +7,12 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-**[remark][]** is a tool that transforms markdown with plugins.
-These plugins can inspect and change your markup.
 This plugin for Visual Studio Code lets you format and lint markdown files with
 remark.
 
 ## Contents
 
+*   [WHat is this?](#what-is-this)
 *   [When should I use this?](#when-should-i-use-this)
 *   [Use](#use)
     *   [Formatting](#formatting)
@@ -23,6 +22,11 @@ remark.
 *   [Security](#security)
 *   [Contribute](#contribute)
 *   [License](#license)
+
+## WHat is this?
+
+**[remark][]** is a tool that transforms markdown with plugins.
+These plugins can inspect and change your markup.
 
 ## When should I use this?
 
