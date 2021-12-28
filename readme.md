@@ -7,8 +7,7 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-This plugin for Visual Studio Code lets you format and lint markdown files with
-remark.
+Visual Studio Code extension to format and lint markdown files with remark.
 
 ## Contents
 
