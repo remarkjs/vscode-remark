@@ -35,7 +35,7 @@ export function activate(context) {
 
   const client = new LanguageClient(
     'remarkLanguageServer',
-    'Remark Language Server',
+    'remark Language Server',
     serverOptions,
     clientOptions
   )

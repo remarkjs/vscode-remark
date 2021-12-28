@@ -1,7 +1,7 @@
 {
   "name": "vscode-remark",
-  "displayName": "Remark",
-  "description": "Lint and format markdown code with Remark",
+  "displayName": "remark",
+  "description": "Lint and format markdown code with remark",
   "version": "1.2.1",
   "publisher": "unifiedjs",
   "license": "MIT",
