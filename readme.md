@@ -34,12 +34,17 @@ See [remark][] for info on what the remark ecosystem is.
 
 ## When should I use this?
 
-If you wish to apply code quality checks on your markdown files, this extension
-is for you.
-This extension allows you to check and format markdown files right in your
-editor.
-[`remark-cli`][remark-cli] can be used to ensure consitent formatting in CI.
-it’s recommended to use that in combination with this extension.
+You can use this extension if you want to check (lint) and format markdown
+files from within your editor.
+
+To configure this extension, you define your preferred markdown style in a
+configuration file (`.remarkrc`, `.remarkrc.js`, etc. or in `package.json`).
+This file is picked up by `vscode-remark` and other tools (useful for
+contributors that don’t use VS Code).
+
+The configuration file is also used by [`remark-cli`][remark-cli], which is
+recommended to be used alongside `vscode-remark`, as an npm script and/or in
+CI, to enforce the markdown style.
 
 ## Use
 
