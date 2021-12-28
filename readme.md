@@ -24,8 +24,13 @@ Visual Studio Code extension to format and lint markdown files with remark.
 
 ## What is this?
 
-**[remark][]** is a tool that transforms markdown with plugins.
-These plugins can inspect and change your markup.
+This project is a Visual Studio Code (VS Code) extension that you can use in
+your editor to inspect and change markdown files.
+This extension is built around remark, which is a very popular ecosystem of
+plugins that work with markdown.
+You can choose from the 150+ plugins that already exist or make your own.
+
+See [remark][] for info on what the remark ecosystem is.
 
 ## When should I use this?
 
