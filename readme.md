@@ -102,8 +102,8 @@ To format a file, first press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.
 Search for and select `Format Document With…`.
 Now select `remark`.
 
-To make this the default formatter, add the following to your `settings.json`
-(Open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
+To make `vscode-remark` the default formatter for markdown, add the following to
+your `settings.json` (which you can open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
 
 ```json
 {
