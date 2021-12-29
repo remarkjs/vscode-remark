@@ -49,8 +49,16 @@ CI, to enforce the markdown style.
 
 ## Install
 
-1.  Press <kbd>Ctrl</kbd> + <kbd>P</kbd> to launch `Quick Open`.
-2.  Type `ext install unifiedjs.vscode-remark` and press <kbd>Enter</kbd>.
+[Get it from the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=xxxx).
+Install through VS Code extensions.
+Search for `remark`.
+
+It can also be installed in VS Code: Launch VS Code Quick Open
+(<kbd>Ctrl</kbd> + <kbd>P</kbd>), paste the following command, and press enter.
+
+```txt
+ext install unifiedjs.vscode-remark
+```
 
 See the
 [extension installation guide](https://code.visualstudio.com/docs/editor/extension-gallery)
