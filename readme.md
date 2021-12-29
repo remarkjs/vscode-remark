@@ -49,20 +49,11 @@ CI, to enforce the markdown style.
 
 ## Install
 
-[Get it from the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=xxxx).
-Install through VS Code extensions.
-Search for `remark`.
-
-It can also be installed in VS Code: Launch VS Code Quick Open
-(<kbd>Ctrl</kbd> + <kbd>P</kbd>), paste the following command, and press enter.
-
+[Get it on the VS Code Marketplace][marketplace] or install it by using Quick
+Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and running the following:
 ```txt
 ext install unifiedjs.vscode-remark
 ```
-
-See the
-[extension installation guide](https://code.visualstudio.com/docs/editor/extension-gallery)
-for details.
 
 ## Use
 
@@ -216,6 +207,8 @@ abide by its terms.
 [coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
 
 [collective]: https://opencollective.com/unified
+
+[marketplace]: https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-remark
 
 [remark-lint]: https://github.com/remarkjs/remark-lint
 
