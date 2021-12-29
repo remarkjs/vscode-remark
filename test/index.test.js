@@ -42,6 +42,7 @@ module.exports.run = () =>
 
       t.deepEquals(diagnostics, [
         'Marker style should be `*`',
+        'Marker style should be `*`',
         'Marker style should be `*`'
       ])
     })
