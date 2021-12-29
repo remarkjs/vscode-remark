@@ -1,14 +1,7 @@
 const path = require('path')
 
 const test = require('tape')
-const {
-  extensions,
-  languages,
-  Uri,
-  window,
-  workspace,
-  Position
-} = require('vscode')
+const {extensions, languages, Range, Uri, window, workspace} = require('vscode')
 
 /**
  * Wait for a given amount of time.
@@ -33,10 +26,11 @@ module.exports.run = () =>
       const uri = Uri.file(path.resolve(__dirname, '../readme.md'))
       const doc = await workspace.openTextDocument(uri)
       const editor = await window.showTextDocument(doc)
+      const text = doc.getText()
       editor.edit((builder) => {
-        builder.insert(
-          new Position(0, 0),
-          '-   invalid\n-   list\n-   style\n\n'
+        builder.replace(
+          new Range(doc.positionAt(0), doc.positionAt(text.length)),
+          '-   invalid\n-   list\n-   style\n'
         )
       })
       // This is based on official example test code
