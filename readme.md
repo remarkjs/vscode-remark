@@ -2,7 +2,7 @@
 
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
+[![Downloads][downloads-badge]][marketplace]
 [![Sponsors][sponsors-badge]][collective]
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
@@ -51,6 +51,7 @@ CI, to enforce the markdown style.
 
 [Get it on the VS Code Marketplace][marketplace] or install it by using Quick
 Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and running the following:
+
 ```txt
 ext install unifiedjs.vscode-remark
 ```
@@ -77,8 +78,7 @@ Here’s an example that should produce problems you can use to verify:
 
 This extension can format markdown files.
 
-To format a file, pull up the command pallete (<kbd>Ctrl</kbd> +
-<kbd>Shift</kbd> + <kbd>P</kbd>), choose `Format Document With…`, and select
+To format a file, pull up the command pallete (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>), choose `Format Document With…`, and select
 `remark`.
 
 To make `vscode-remark` the default formatter for markdown, add the following to
@@ -92,8 +92,7 @@ your `settings.json` (which you can open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
 }
 ```
 
-Now markdown documents can be formatted using <kbd>Ctrl</kbd> +
-<kbd>Shift</kbd> + <kbd>I</kbd>.
+Now markdown documents can be formatted using <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>.
 
 You can optionally choose to automatically format when saving with
 `editor.formatOnSave`:
@@ -160,8 +159,6 @@ abide by its terms.
 [coverage]: https://codecov.io/github/remarkjs/vscode-remark
 
 [downloads-badge]: https://img.shields.io/visual-studio-marketplace/d/unifiedjs.vscode-remark
-
-[downloads]: https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-remark
 
 [chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
 
