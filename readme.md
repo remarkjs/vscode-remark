@@ -14,6 +14,7 @@ Visual Studio Code extension to format and lint markdown files with remark.
 *   [What is this?](#what-is-this)
 *   [When should I use this?](#when-should-i-use-this)
 *   [Use](#use)
+    *   [Linting](#linting)
     *   [Formatting](#formatting)
 *   [Plugins](#plugins)
 *   [Syntax](#syntax)
@@ -47,6 +48,8 @@ recommended to be used alongside `vscode-remark`, as an npm script and/or in
 CI, to enforce the markdown style.
 
 ## Use
+
+### Linting
 
 This example enables VS Code users that have this extension installed to see
 warnings about markdown style in their editor and the `Problems` pane and to
