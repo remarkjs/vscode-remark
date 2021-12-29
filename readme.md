@@ -57,46 +57,16 @@ ext install unifiedjs.vscode-remark
 
 ## Use
 
-This example enables VS Code users that have this extension installed to see
-warnings about markdown style in their editor and the `Problems` pane and to
-format markdown from a command.
-
-Make sure that this extension is installed and then install the CLI and
-plugins:
-
-```sh
-npm install remark-cli remark-preset-lint-recommended remark-preset-lint-consistent remark-toc
-```
-
-Then, add a `remarkConfig` to your `package.json` to configure remark:
-
-```js
-  /* … */
-  "remarkConfig": {
-    "settings": {
-      "bullet": "*", // Use `*` for list item bullets (default)
-      // See <https://github.com/remarkjs/remark/tree/main/packages/remark-stringify> for more options.
-    },
-    "plugins": [
-      "remark-preset-lint-consistent", // Check that markdown is consistent.
-      "remark-preset-lint-recommended", // Few recommended rules.
-      [
-        // Generate a table of contents in `## Contents`
-        "remark-toc",
-        {
-          "heading": "contents"
-        }
-      ]
-    ]
-  },
-  /* … */
-```
-
-> 👉 **Note**: you must remove the comments in the above examples when
-> copy/pasting them, as comments are not supported in `package.json` files.
+To use this extension, set up [`remark-cli`][remark-cli] like you normally would
+in your project with a configuration file.
+The extension will find the configuration in your workspace just like running
+`remark-cli` in your terminal would.
+You will be able to see your linter work as you type and you can format your
+code if you want it to.
 
 Now, you can open markdown files in your project, and you’ll see squiggly lines
-and warnings in the `Problems` pane.
+and warnings in the `Problems` pane if the code doesn’t adhere to the coding
+standards.
 Here’s an example that should produce problems you can use to verify:
 
 ```markdown
