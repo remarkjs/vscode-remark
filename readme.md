@@ -77,9 +77,9 @@ Here’s an example that should produce problems you can use to verify:
 
 This extension can format markdown files.
 
-To format a file, first press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.
-Search for and select `Format Document With…`.
-Now select `remark`.
+To format a file, pull up the command pallete (<kbd>Ctrl</kbd> +
+<kbd>Shift</kbd> + <kbd>P</kbd>), choose `Format Document With…`, and select
+`remark`.
 
 To make `vscode-remark` the default formatter for markdown, add the following to
 your `settings.json` (which you can open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
