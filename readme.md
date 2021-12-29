@@ -92,6 +92,9 @@ your `settings.json` (which you can open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
 }
 ```
 
+Now markdown documents can be formatted using <kbd>Ctrl</kbd> +
+<kbd>Shift</kbd> + <kbd>I</kbd>.
+
 You can optionally choose to automatically format when saving with
 `editor.formatOnSave`:
 
