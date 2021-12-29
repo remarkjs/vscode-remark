@@ -42,11 +42,10 @@ module.exports.run = () =>
 
       t.deepEquals(diagnostics, [
         'Marker style should be `*`',
-        'Marker style should be `*`',
         'Marker style should be `*`'
       ])
     })
 
     test.onFinish(resolve)
-    test.onFailure(reject)
+    test.onFailure(() => reject(new Error('Tests failed')))
   })
