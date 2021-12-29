@@ -113,7 +113,8 @@ your `settings.json` (which you can open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
 }
 ```
 
-Optionally enable format on save:
+You can optionally choose to automatically format when saving with
+`editor.formatOnSave`:
 
 ```json
 {
