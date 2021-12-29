@@ -47,6 +47,15 @@ The configuration file is also used by [`remark-cli`][remark-cli], which is
 recommended to be used alongside `vscode-remark`, as an npm script and/or in
 CI, to enforce the markdown style.
 
+## Install
+
+1.  Press <kbd>Ctrl</kbd> + <kbd>P</kbd> to launch `Quick Open`.
+2.  Type `ext install unifiedjs.vscode-remark` and press <kbd>Enter</kbd>.
+
+See the
+[extension installation guide](https://code.visualstudio.com/docs/editor/extension-gallery)
+for details.
+
 ## Use
 
 ### Linting
