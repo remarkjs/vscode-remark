@@ -112,12 +112,6 @@ The **remark** ecosystem has a variety of plugins available.
 Most notably you’ll want to check out [`remark-lint`][remark-lint].
 See this curated [list of plugins][list-of-plugins] for more remark plugins.
 
-## Syntax
-
-remark follows CommonMark, which standardizes the differences between markdown
-implementations, by default.
-Some syntax extensions are supported through plugins.
-
 ## Compatibility
 
 This extension is compatible with Visual Studio Code versions 1.46.0 and
