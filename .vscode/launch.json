@@ -9,17 +9,24 @@
       "args": [
         "${workspaceFolder}/readme.md",
         "--extensionDevelopmentPath=${workspaceFolder}"
-      ]
+      ],
+      "presentation": {
+        "hidden": true
+      }
     },
     {
       "name": "Remark language server",
       "type": "node",
       "request": "attach",
-      "port": 6009
+      "port": 6009,
+      "presentation": {
+        "hidden": true
+      }
     }
   ],
   "compounds": [
     {
+      "preLaunchTask": "build",
       "name": "Extension + Language server",
       "configurations": ["Launch Extension", "Remark language server"]
     }
