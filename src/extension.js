@@ -1,21 +1,25 @@
-import path from 'path'
-
 import {workspace} from 'vscode'
-import {LanguageClient} from 'vscode-languageclient/node.js'
+import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
 
 /**
  * @param {import('vscode').ExtensionContext} context
  */
 export function activate(context) {
-  const command = 'node'
-  const args = [path.join(__dirname, 'remark-language-server.js'), '--stdio']
+  /**
+   * @type {import('vscode-languageclient/node').NodeModule}
+   */
+  const run = {
+    module: require.resolve('./remark-language-server'),
+    transport: TransportKind.ipc,
+    args: ['--node-ipc']
+  }
 
   /**
    * @type {import('vscode-languageclient/node').ServerOptions}
    */
   const serverOptions = {
-    run: {command, args},
-    debug: {command, args: ['--inspect=6009', ...args]}
+    run,
+    debug: {...run, options: {execArgv: ['--inspect=6009']}}
   }
 
   /**

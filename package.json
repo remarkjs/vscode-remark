@@ -106,8 +106,8 @@
     "xo": "^0.47.0"
   },
   "scripts": {
-    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --minify --format=cjs --outfile=out/remark-language-server.js",
-    "build:extension": "esbuild src/extension.js --bundle --platform=node --minify --format=cjs --external:vscode --outfile=out/extension.js",
+    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --target=node14 --format=cjs --outfile=out/remark-language-server.js",
+    "build:extension": "esbuild src/extension.js --bundle --platform=node --target=node14 --format=cjs --external:vscode --external:./remark-language-server --outfile=out/extension.js",
     "lint": "xo",
     "build": "rimraf out && npm run build:language-server && npm run build:extension",
     "pretest": "npm run build && npm run lint",
