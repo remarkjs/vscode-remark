@@ -35,7 +35,7 @@ module.exports.run = () =>
       })
       // This is based on official example test code
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
-      await sleep(5000)
+      await sleep(10_000)
       const diagnostics = languages
         .getDiagnostics(uri)
         .map((diagnostic) => diagnostic.message)
