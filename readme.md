@@ -17,7 +17,6 @@ Visual Studio Code extension to format and lint markdown files with remark.
 *   [Use](#use)
 *   [Formatting](#formatting)
 *   [Plugins](#plugins)
-*   [Syntax](#syntax)
 *   [Compatibility](#compatibility)
 *   [Security](#security)
 *   [Contribute](#contribute)
