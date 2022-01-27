@@ -1,7 +1,7 @@
 const path = require('path')
 
 const test = require('tape')
-const {extensions, languages, Range, Uri, window, workspace} = require('vscode')
+const {extensions, languages, Uri, window, workspace} = require('vscode')
 
 /**
  * Wait for a given amount of time.
@@ -24,17 +24,12 @@ module.exports.run = () =>
       await ext.activate()
       await sleep(2000) // Wait for server activation
 
+      console.log('xxx:', workspace.workspaceFolders)
+
       const fp = path.resolve(__dirname, '../readme.md')
       const file = Uri.file(fp)
-      const doc = await workspace.openTextDocument(file)
-      const editor = await window.showTextDocument(doc)
 
-      editor.edit((builder) => {
-        builder.replace(
-          new Range(doc.positionAt(0), doc.positionAt(doc.getText().length)),
-          '-   invalid\n-   list\n-   style\n'
-        )
-      })
+      await window.showTextDocument(file)
 
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
       await sleep(2000) // Wait for file to be edited.
