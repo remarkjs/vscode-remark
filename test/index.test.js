@@ -32,7 +32,7 @@ module.exports.run = () =>
       await window.showTextDocument(file)
 
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
-      await sleep(2000) // Wait for file to be edited.
+      await sleep(20_000) // Wait for file to be edited.
 
       console.log('y3', languages.getDiagnostics())
 
