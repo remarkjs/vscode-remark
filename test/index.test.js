@@ -27,7 +27,15 @@ module.exports.run = () =>
       const fp = path.resolve(__dirname, '../readme.md')
       const file = Uri.file(fp)
       console.log('y2', file, [__dirname, fp])
-      const doc = await workspace.openTextDocument(file)
+
+      let doc
+      try {
+        doc = await workspace.openTextDocument(file)
+      } catch (error) {
+        console.log('z1: File does not exist on disk')
+        throw error
+      }
+
       const editor = await window.showTextDocument(doc)
       const text = doc.getText()
       editor.edit((builder) => {
