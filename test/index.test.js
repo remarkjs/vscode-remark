@@ -21,7 +21,6 @@ module.exports.run = () =>
   new Promise((resolve, reject) => {
     test('extension', async (t) => {
       const ext = extensions.getExtension('unifiedjs.vscode-remark')
-      console.log('y1', ext)
       await ext.activate()
       await sleep(2000) // Wait for server activation
 
@@ -35,7 +34,9 @@ module.exports.run = () =>
           new Range(doc.positionAt(0), doc.positionAt(text.length)),
           '-   invalid\n-   list\n-   style\n'
         )
+        console.log('r1:')
       })
+      await sleep(2000)
       console.log('y3', [doc.getText()])
       // This is based on official example test code
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
@@ -53,7 +54,12 @@ module.exports.run = () =>
       console.log('y5')
     })
 
-    console.log('y6')
-    test.onFinish(resolve)
-    test.onFailure(() => reject(new Error('Tests failed')))
+    test.onFinish(() => {
+      console.log('z:finish')
+      resolve()
+    })
+    test.onFailure(() => {
+      console.log('z:failure')
+      reject(new Error('Tests failed'))
+    })
   })

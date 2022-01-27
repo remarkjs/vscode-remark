@@ -5,7 +5,6 @@ const {runTests} = require('@vscode/test-electron')
 
 async function go() {
   const extensionTestsPath = require.resolve('./test/index.test.js')
-  console.log('x1:', [extensionTestsPath])
 
   await runTests({
     extensionDevelopmentPath: __dirname,
@@ -16,10 +15,10 @@ async function go() {
 
 go().then(
   (result) => {
-    console.log('x2:ok', [result])
+    console.log('x:ok', [result])
   },
   (error) => {
-    console.log('x2:err', [error])
+    console.log('x:err', [error])
     console.error(error)
     process.exit(1)
   }
