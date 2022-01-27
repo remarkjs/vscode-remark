@@ -9,7 +9,7 @@ export function activate(context) {
    * @type {import('vscode-languageclient/node').NodeModule}
    */
   const run = {
-    module: require.resolve('./remark-language-server'),
+    module: context.asAbsolutePath('./out/remark-language-server.js'),
     transport: TransportKind.ipc,
     args: ['--node-ipc']
   }
