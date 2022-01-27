@@ -24,9 +24,10 @@ module.exports.run = () =>
       await ext.activate()
       await sleep(2000) // Wait for server activation
 
-      const uri = Uri.file(path.resolve(__dirname, '../readme.md'))
-      console.log('y2', uri)
-      const doc = await workspace.openTextDocument(uri)
+      const fp = path.resolve(__dirname, '../readme.md')
+      const file = Uri.file(fp)
+      console.log('y2', file, [__dirname, fp])
+      const doc = await workspace.openTextDocument(file)
       const editor = await window.showTextDocument(doc)
       const text = doc.getText()
       editor.edit((builder) => {
@@ -42,9 +43,9 @@ module.exports.run = () =>
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
       await sleep(4000)
       const diagnostics = languages
-        .getDiagnostics(uri)
+        .getDiagnostics(file)
         .map((diagnostic) => diagnostic.message)
-      console.log('y4', diagnostics)
+      console.log('y4', languages.getDiagnostics(file), diagnostics)
 
       t.deepEquals(diagnostics, [
         'Marker style should be `*`',
@@ -58,8 +59,8 @@ module.exports.run = () =>
       console.log('z:finish')
       resolve()
     })
-    test.onFailure(() => {
-      console.log('z:failure')
+    test.onFailure(function () {
+      console.log('z:failure', arguments)
       reject(new Error('Tests failed'))
     })
   })
