@@ -39,7 +39,7 @@ module.exports.run = () =>
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
       await sleep(2000) // Wait for file to be edited.
 
-      console.log('y3', languages)
+      console.log('y3', languages.getDiagnostics())
 
       const diagnostics = languages
         .getDiagnostics(file)
