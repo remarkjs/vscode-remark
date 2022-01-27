@@ -4,33 +4,22 @@ on: [push, pull_request]
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-    runs-on: ${{matrix.os}}
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "Started xvfb"
+        shell: bash
+        if: ${{ success() && matrix.os == 'ubuntu-latest' }}
+      - run: npm install && npm run build
+      - run: npm test
         env:
-          cache-name: cache-npm
-        with:
-          path: ~/.npm
-          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
-          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
-      - run: npm install
-      - run: npm run build
-      - uses: actions/upload-artifact@v2
-        with:
-          name: out
-          path: out
-      - name: test
-        uses: GabrielBB/xvfb-action@v1.6
-        env:
-          COVERAGE: true
-        with:
-          run: npm test
-      - uses: codecov/codecov-action@v2
-
+          DISPLAY: ":99.0"
   package:
     runs-on: ubuntu-latest
     steps:
