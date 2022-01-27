@@ -26,15 +26,7 @@ module.exports.run = () =>
 
       const fp = path.resolve(__dirname, '../readme.md')
       const file = Uri.file(fp)
-      console.log('y2', file, [__dirname, fp])
-
-      let doc
-      try {
-        doc = await workspace.openTextDocument(file)
-      } catch (error) {
-        console.log('z1: File does not exist on disk')
-        throw error
-      }
+      const doc = await workspace.openTextDocument(file)
 
       const editor = await window.showTextDocument(doc)
       const text = doc.getText()
@@ -43,13 +35,13 @@ module.exports.run = () =>
           new Range(doc.positionAt(0), doc.positionAt(text.length)),
           '-   invalid\n-   list\n-   style\n'
         )
-        console.log('r1:')
       })
-      await sleep(2000)
-      console.log('y3', [doc.getText()])
-      // This is based on official example test code
+
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
-      await sleep(4000)
+      await sleep(10_000) // Wait for file to be opened.
+
+      console.log('y3', [doc.getText()])
+
       const diagnostics = languages
         .getDiagnostics(file)
         .map((diagnostic) => diagnostic.message)
