@@ -27,26 +27,24 @@ module.exports.run = () =>
       const fp = path.resolve(__dirname, '../readme.md')
       const file = Uri.file(fp)
       const doc = await workspace.openTextDocument(file)
-
       const editor = await window.showTextDocument(doc)
-      const text = doc.getText()
+
       editor.edit((builder) => {
         builder.replace(
-          new Range(doc.positionAt(0), doc.positionAt(text.length)),
+          new Range(doc.positionAt(0), doc.positionAt(doc.getText().length)),
           '-   invalid\n-   list\n-   style\n'
         )
       })
 
       // https://github.com/microsoft/vscode-extension-samples/blob/main/lsp-sample/client/src/test/helper.ts
-      await sleep(10_000) // Wait for file to be opened.
+      await sleep(2000) // Wait for file to be edited.
 
-      console.log('y3', [doc.getText()])
+      console.log('y3', languages)
 
       const diagnostics = languages
         .getDiagnostics(file)
         .map((diagnostic) => diagnostic.message)
       console.log('y4', languages.getDiagnostics(file), diagnostics)
-
       t.deepEquals(diagnostics, [
         'Marker style should be `*`',
         'Marker style should be `*`',
@@ -55,11 +53,16 @@ module.exports.run = () =>
       console.log('y5')
     })
 
+    let failed = false
+
     test.onFinish(() => {
-      console.log('z:finish')
-      resolve()
+      if (!failed) {
+        console.log('z:finish')
+        resolve()
+      }
     })
     test.onFailure(function () {
+      failed = true
       console.log('z:failure', arguments)
       reject(new Error('Tests failed'))
     })
