@@ -6,20 +6,27 @@ import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
  */
 export function activate(context) {
   /**
-   * @type {import('vscode-languageclient/node').NodeModule}
-   */
-  const run = {
-    module: context.asAbsolutePath('./out/remark-language-server.js'),
-    transport: TransportKind.ipc,
-    args: ['--node-ipc']
-  }
-
-  /**
    * @type {import('vscode-languageclient/node').ServerOptions}
    */
   const serverOptions = {
-    run,
-    debug: {...run, options: {execArgv: ['--inspect=6009']}}
+    run: {
+      module: context.asAbsolutePath('./out/remark-language-server.js'),
+      transport: TransportKind.ipc,
+      args: [],
+      options: {
+        env: {},
+        execArgv: []
+      }
+    },
+    debug: {
+      module: context.asAbsolutePath('./out/remark-language-server.js'),
+      transport: TransportKind.ipc,
+      args: [],
+      options: {
+        env: {},
+        execArgv: ['--nolazy', '--inspect=6009']
+      }
+    }
   }
 
   /**
