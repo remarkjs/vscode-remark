@@ -313,7 +313,7 @@
   "dependencies": {
     "npm-module-path": "^2.0.2",
     "remark": "^13.0.0",
-    "yaml": "^1.10.0"
+    "yaml": "^2.0.0"
   },
   "scripts": {
     "clean": "rimraf out",
