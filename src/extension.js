@@ -2,9 +2,14 @@ import {workspace} from 'vscode'
 import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
 
 /**
+ * @type {LanguageClient}
+ */
+let client
+
+/**
  * @param {import('vscode').ExtensionContext} context
  */
-export function activate(context) {
+export async function activate(context) {
   /**
    * @type {import('vscode-languageclient/node').NodeModule}
    */
@@ -37,12 +42,18 @@ export function activate(context) {
     }
   }
 
-  const client = new LanguageClient(
+  client = new LanguageClient(
     'remarkLanguageServer',
     'remark Language Server',
     serverOptions,
     clientOptions
   )
 
-  context.subscriptions.push(client.start())
+  await client.start()
+}
+
+export async function deactivate() {
+  if (client) {
+    await client.stop()
+  }
 }
