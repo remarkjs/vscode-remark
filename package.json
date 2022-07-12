@@ -84,7 +84,8 @@
   "xo": {
     "prettier": true,
     "rules": {
-      "unicorn/prefer-module": "off"
+      "unicorn/prefer-module": "off",
+      "unicorn/prefer-node-protocol": "off"
     }
   },
   "devDependencies": {
