@@ -42,12 +42,7 @@ export async function activate(context) {
     }
   }
 
-  client = new LanguageClient(
-    'remarkLanguageServer',
-    'remark Language Server',
-    serverOptions,
-    clientOptions
-  )
+  client = new LanguageClient('remark', serverOptions, clientOptions)
 
   await client.start()
 }
