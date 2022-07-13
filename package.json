@@ -1,7 +1,7 @@
 {
   "name": "vscode-remark",
-  "displayName": "Remark",
-  "description": "Beautify markdown code with Remark",
+  "displayName": "remark",
+  "description": "Lint and format markdown code with remark",
   "version": "1.2.1",
   "publisher": "unifiedjs",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "vscode": "^1.46.0"
   },
   "icon": "icon.png",
-  "homepage": "https://github.com/remarkjs/vscode-remark/blob/master/README.md",
+  "homepage": "https://github.com/remarkjs/vscode-remark#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/remarkjs/vscode-remark"
@@ -23,201 +23,14 @@
   ],
   "author": "Denis Malinochkin <dmalinochkin@rambler.ru>",
   "categories": [
-    "Other"
+    "Formatters",
+    "Linters"
   ],
   "activationEvents": [
-    "onCommand:remark.reformat",
     "onLanguage:markdown"
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "remark.reformat",
-        "title": "Remark: Beautify markdown code"
-      }
-    ],
-    "configuration": {
-      "type": "object",
-      "title": "Remark format configuration options",
-      "properties": {
-        "remark.format": {
-          "type": "object",
-          "default": {},
-          "properties": {
-            "plugins": {
-              "type": "array",
-              "default": [],
-              "description": "A list globally or locally installed plugins that will be used with Remark (without `remark-` prefix).",
-              "items": {
-                "type": "string",
-                "description": "The full name of plugin without `remark-` prefix."
-              }
-            },
-            "rules": {
-              "type": "object",
-              "default": {},
-              "description": "Remark formatter rules.",
-              "properties": {
-                "gfm": {
-                  "type": "boolean",
-                  "default": true,
-                  "description": "Escape pipes (|, for tables), colons (:, for literal URLs), tildes (~, for strike-through)."
-                },
-                "commonmark": {
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Compile adjacent blockquotes separately and escape more characters using slashes, instead of as entities."
-                },
-                "pedantic": {
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Escape underscores in words."
-                },
-                "entities": {
-                  "type": [
-                    "boolean",
-                    "string"
-                  ],
-                  "default": false,
-                  "description": "See values description.",
-                  "oneOf": [
-                    {
-                      "type": "boolean",
-                      "enum": [
-                        true,
-                        false
-                      ],
-                      "description": "Entities are generated for special HTML characters (& > &amp;) and non-ASCII characters (© > &copy;). If named entities are not (widely) supported, numbered character references are used (’ > &#x2019;)."
-                    },
-                    {
-                      "type": "string",
-                      "enum": [
-                        "numbers"
-                      ],
-                      "description": "Numbered entities are generated (& > &#x26;) for special HTML characters and non-ASCII characters."
-                    },
-                    {
-                      "type": "string",
-                      "enum": [
-                        "escape"
-                      ],
-                      "description": "Special HTML characters are encoded (& > &amp;, ’ > &#x2019;), non-ASCII characters not (ö persists)."
-                    }
-                  ]
-                },
-                "setext": {
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Compile headings, when possible, in Setext-style: using = for level one headings and - for level two headings. Other heading levels are compiled as ATX (respecting closeAtx)."
-                },
-                "closeAtx": {
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Compile ATX headings with the same amount of closing hashes as opening hashes."
-                },
-                "looseTable": {
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Create tables without fences (initial and final pipes)."
-                },
-                "spacedTable": {
-                  "type": "boolean",
-                  "default": true,
-                  "description": "Create tables without spacing between pipes and content."
-                },
-                "fence": {
-                  "type": "boolean",
-                  "default": "`",
-                  "enum": [
-                    "~",
-                    "`"
-                  ],
-                  "description": "Fence marker to use for code blocks."
-                },
-                "fences": {
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Stringify code blocks without language with fences."
-                },
-                "listItemIndent": {
-                  "type": "string",
-                  "default": "tab",
-                  "description": "How to indent the content from list items.",
-                  "oneOf": [
-                    {
-                      "type": "string",
-                      "enum": [
-                        "tab"
-                      ],
-                      "description": "Use tab stops (4 spaces)."
-                    },
-                    {
-                      "type": "string",
-                      "enum": [
-                        "1"
-                      ],
-                      "description": "Use one space."
-                    },
-                    {
-                      "type": "string",
-                      "enum": [
-                        "mixed"
-                      ],
-                      "description": "use one space for tight and tab for loose list items."
-                    }
-                  ]
-                },
-                "incrementListMarker": {
-                  "type": "boolean",
-                  "default": true,
-                  "description": "Whether to increment ordered list item bullets."
-                },
-                "rule": {
-                  "type": "string",
-                  "default": "*",
-                  "enum": [
-                    "-",
-                    "*",
-                    "_"
-                  ],
-                  "description": "Marker to use for thematic breaks (horizontal rules)."
-                },
-                "ruleRepetition ": {
-                  "type": "number",
-                  "default": 3,
-                  "minimum": 3,
-                  "description": "Number of markers to use for thematic breaks (horizontal rules). Should be 3 or more."
-                },
-                "ruleSpace": {
-                  "type": "boolean",
-                  "default": true,
-                  "description": "Whether to pad thematic break (horizontal rule) markers with spaces."
-                },
-                "strong": {
-                  "type": "string",
-                  "default": "*",
-                  "enum": [
-                    "_",
-                    "*"
-                  ],
-                  "description": "Marker to use for importance."
-                },
-                "emphasis": {
-                  "type": "string",
-                  "default": "_",
-                  "enum": [
-                    "_",
-                    "*"
-                  ],
-                  "description": "Marker to use for emphasis."
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "jsonValidation": [
       {
         "fileMatch": ".remarkrc",
@@ -271,57 +84,31 @@
   "xo": {
     "prettier": true,
     "rules": {
-      "@typescript-eslint/naming-convention": "off",
-      "@typescript-eslint/no-base-to-string": "off",
-      "@typescript-eslint/no-floating-promises": "off",
-      "@typescript-eslint/no-implicit-any-catch": "off",
-      "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/no-unused-expressions": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/restrict-plus-operands": "off",
-      "import/extensions": "off",
-      "unicorn/filename-case": "off",
       "unicorn/prefer-module": "off",
       "unicorn/prefer-node-protocol": "off"
     }
   },
   "devDependencies": {
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@types/chai": "^4.2.11",
-    "@types/check-types": "^7.3.1",
-    "@types/glob": "^7.1.1",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.0.0",
-    "@types/vscode": "^1.46.0",
-    "chai": "^4.2.0",
-    "check-types": "^11.1.2",
-    "glob": "^7.1.6",
-    "mocha": "^9.0.0",
-    "nyc": "^15.1.0",
+    "@types/vscode": "^1.0.0",
+    "@vscode/test-electron": "^2.0.0",
+    "esbuild": "^0.14.0",
     "prettier": "^2.0.0",
-    "remark-cli": "^10.0.0",
+    "remark-cli": "^11.0.0",
+    "remark-language-server": "^2.0.0",
     "remark-preset-wooorm": "^9.0.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^3.0.0",
     "typescript": "^4.0.0",
     "vsce": "^2.0.0",
-    "vscode-test": "^1.3.0",
-    "xo": "^0.47.0"
-  },
-  "dependencies": {
-    "npm-module-path": "^2.0.2",
-    "remark": "^13.0.0",
-    "yaml": "^1.10.0"
+    "vscode-languageclient": "^8.0.0",
+    "xo": "^0.50.0"
   },
   "scripts": {
-    "clean": "rimraf out",
+    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --target=node14 --format=cjs --outfile=out/remark-language-server.js",
+    "build:extension": "esbuild src/extension.js --bundle --platform=node --target=node14 --format=cjs --external:vscode --external:./remark-language-server --outfile=out/extension.js",
     "lint": "xo",
-    "compile": "tsc -p ./",
-    "build": "npm run clean && npm run lint && npm run compile",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js"
+    "build": "rimraf out && npm run build:language-server && npm run build:extension",
+    "pretest": "npm run build && npm run lint",
+    "test": "node test.js",
+    "vscode:prepublish": "npm run build"
   }
 }
