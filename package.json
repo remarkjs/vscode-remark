@@ -48,7 +48,7 @@
     "languages": [
       {
         "id": "ignore",
-        "extensions": [
+        "filenames": [
           ".remarkignore"
         ]
       },
