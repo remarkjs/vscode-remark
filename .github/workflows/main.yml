@@ -1,0 +1,34 @@
+name: main
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - name: test
+        uses: GabrielBB/xvfb-action@v1.6
+        with:
+          run: npm test
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npx vsce package
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vscode-remark.vsix
+          path: '*.vsix'
