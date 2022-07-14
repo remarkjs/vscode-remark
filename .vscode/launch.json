@@ -15,7 +15,7 @@
       }
     },
     {
-      "name": "Remark language server",
+      "name": "Debug language server",
       "type": "node",
       "request": "attach",
       "port": 6009,
@@ -28,7 +28,7 @@
     {
       "preLaunchTask": "build",
       "name": "Extension + Language server",
-      "configurations": ["Launch Extension", "Remark language server"]
+      "configurations": ["Launch Extension", "Debug language server"]
     }
   ]
 }
