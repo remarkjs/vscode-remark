@@ -1,7 +1,6 @@
 # remark for Visual Studio Code
 
 [![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][marketplace]
 [![Sponsors][sponsors-badge]][collective]
 [![Backers][backers-badge]][collective]
@@ -146,10 +145,6 @@ abide by its terms.
 [build-badge]: https://github.com/remarkjs/vscode-remark/workflows/main/badge.svg
 
 [build]: https://github.com/remarkjs/vscode-remark/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/vscode-remark.svg
-
-[coverage]: https://codecov.io/github/remarkjs/vscode-remark
 
 [downloads-badge]: https://img.shields.io/visual-studio-marketplace/d/unifiedjs.vscode-remark
 
