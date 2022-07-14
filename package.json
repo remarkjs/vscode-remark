@@ -18,8 +18,8 @@
     "markdown",
     "remark",
     "format",
-    "beautify",
-    "beautifier"
+    "lint",
+    "validate"
   ],
   "author": "Denis Malinochkin <dmalinochkin@rambler.ru>",
   "categories": [
@@ -30,6 +30,7 @@
     "onLanguage:markdown"
   ],
   "main": "./out/extension.js",
+  "qna": "https://github.com/orgs/remarkjs/discussions",
   "contributes": {
     "jsonValidation": [
       {
