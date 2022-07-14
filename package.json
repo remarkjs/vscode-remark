@@ -31,6 +31,9 @@
   ],
   "main": "./out/extension.js",
   "qna": "https://github.com/orgs/remarkjs/discussions",
+  "sponsor": {
+    "url": "https://github.com/sponsors/unifiedjs"
+  },
   "contributes": {
     "jsonValidation": [
       {
