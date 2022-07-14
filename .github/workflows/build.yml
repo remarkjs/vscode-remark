@@ -25,11 +25,8 @@ jobs:
           path: out
       - name: test
         uses: GabrielBB/xvfb-action@v1.6
-        env:
-          COVERAGE: true
         with:
           run: npm test
-      - uses: codecov/codecov-action@v2
 
   package:
     runs-on: ubuntu-latest
