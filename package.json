@@ -6,7 +6,7 @@
   "publisher": "unifiedjs",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.67.0"
   },
   "icon": "icon.png",
   "homepage": "https://github.com/remarkjs/vscode-remark#readme",
@@ -103,8 +103,8 @@
     "xo": "^0.50.0"
   },
   "scripts": {
-    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --target=node14 --format=cjs --outfile=out/remark-language-server.js",
-    "build:extension": "esbuild src/extension.js --bundle --platform=node --target=node14 --format=cjs --external:vscode --external:./remark-language-server --outfile=out/extension.js",
+    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --target=node16 --format=cjs --outfile=out/remark-language-server.js",
+    "build:extension": "esbuild src/extension.js --bundle --platform=node --target=node16 --format=cjs --external:vscode --external:./remark-language-server --outfile=out/extension.js",
     "lint": "xo",
     "build": "rimraf out && npm run build:language-server && npm run build:extension",
     "pretest": "npm run build && npm run lint",
