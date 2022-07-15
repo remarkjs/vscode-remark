@@ -42,7 +42,7 @@ jobs:
           registryUrl: https://marketplace.visualstudio.com
           extensionFile: ${{steps.ovsx_publish.outputs.vsixPath}}
           packagePath: ''
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: vscode-remark.vsix
           path: ${{steps.ovsx_publish.outputs.vsixPath}}
