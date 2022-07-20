@@ -85,7 +85,7 @@ your `settings.json` (which you can open with <kbd>Ctrl</kbd> + <kbd>,</kbd>):
 ```json
 {
   "[markdown]": {
-    "editor.defaultFormatter": "unifiedjs.vscode-remark",
+    "editor.defaultFormatter": "unifiedjs.vscode-remark"
   }
 }
 ```

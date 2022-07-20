@@ -1,9 +1,6 @@
 .*
 .*/
-node_modules/
 src/
 test/
-test.js
-renovate.json
-package-lock.json
+test.mjs
 tsconfig.json
