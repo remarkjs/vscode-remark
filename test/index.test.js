@@ -1,6 +1,6 @@
-const assert = require('assert')
-const fs = require('fs/promises')
-const path = require('path')
+const assert = require('node:assert')
+const fs = require('node:fs/promises')
+const path = require('node:path')
 
 const {commands, extensions, Uri, window, workspace} = require('vscode')
 
