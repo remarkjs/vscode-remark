@@ -34,6 +34,16 @@
   "sponsor": {
     "url": "https://github.com/sponsors/unifiedjs"
   },
+  "capabilities": {
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "This extension relies on the file system to load remark and plugins."
+    },
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "This extension loads configuration files and plugins from workspace and executes them."
+    }
+  },
   "contributes": {
     "jsonValidation": [
       {
