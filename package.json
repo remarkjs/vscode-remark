@@ -37,11 +37,10 @@
   "contributes": {
     "jsonValidation": [
       {
-        "fileMatch": ".remarkrc",
-        "url": "https://json.schemastore.org/remarkrc"
-      },
-      {
-        "fileMatch": ".remarkrc.json",
+        "fileMatch": [
+          ".remarkrc",
+          ".remarkrc.json"
+        ],
         "url": "https://json.schemastore.org/remarkrc"
       },
       {
@@ -68,10 +67,6 @@
     "plugins": [
       "preset-wooorm",
       [
-        "lint-no-emphasis-as-heading",
-        false
-      ],
-      [
         "lint-no-html",
         false
       ]
@@ -88,8 +83,7 @@
   "xo": {
     "prettier": true,
     "rules": {
-      "unicorn/prefer-module": "off",
-      "unicorn/prefer-node-protocol": "off"
+      "unicorn/prefer-module": "off"
     }
   },
   "devDependencies": {
@@ -100,19 +94,16 @@
     "remark-cli": "^11.0.0",
     "remark-language-server": "^2.0.0",
     "remark-preset-wooorm": "^9.0.0",
-    "rimraf": "^3.0.0",
     "typescript": "^4.0.0",
     "vsce": "^2.0.0",
     "vscode-languageclient": "^8.0.0",
     "xo": "^0.50.0"
   },
   "scripts": {
-    "build:language-server": "esbuild node_modules/remark-language-server/index.js --bundle --platform=node --target=node16 --format=cjs --outfile=out/remark-language-server.js",
-    "build:extension": "esbuild src/extension.js --bundle --platform=node --target=node16 --format=cjs --external:vscode --external:./remark-language-server --outfile=out/extension.js",
     "lint": "xo",
-    "build": "rimraf out && npm run build:language-server && npm run build:extension",
+    "build": "esbuild extension=src/extension.js remark-language-server --bundle --platform=node --target=node16 --format=cjs --external:vscode --outdir=out --minify",
     "pretest": "npm run build && npm run lint",
-    "test": "node test.js",
+    "test": "node test.mjs",
     "vscode:prepublish": "npm run build"
   }
 }
