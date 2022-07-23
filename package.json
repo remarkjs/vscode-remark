@@ -127,5 +127,11 @@
         ]
       }
     ]
+  },
+  "__metadata": {
+    "id": "fb2da10c-d116-420d-bf07-97f9208e23a6",
+    "publisherDisplayName": "unified",
+    "publisherId": "207bcd0f-c1b5-4dc9-ab76-47615c59238d",
+    "isPreReleaseVersion": false
   }
 }
