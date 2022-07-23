@@ -1,16 +1,8 @@
-# Logs
 logs/
-*.log
-npm-debug.log*
-
-# Dependency directory
 node_modules/
-
-# Build directory
 out/
-
-# Visual Studio Code's user directories
-.vscode*
-
-# Visual Studio Code Extension package
+*.log
 *.vsix
+.DS_Store
+.vscode*
+yarn.lock
