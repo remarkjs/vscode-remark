@@ -9,47 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          fetch-depth: 0
-      - uses: gittools/actions/gitversion/setup@v0.9.13
-        with:
-          versionSpec: '5.x'
-      - uses: gittools/actions/gitversion/execute@v0.9.13
-        id: gitversion
-        with:
-          useConfigFile: true
-          configFilePath: .github/gitversion.yml
-      - uses: actions/cache@v3
-        env:
-          cache-name: cache-npm
-        with:
-          path: ~/.npm
-          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
-          restore-keys: ${{runner.os}}-build-${{env.cache-name}}-
-      - name: npm version
-        run: npm version --no-git-tag-version ${{steps.gitversion.outputs.fullSemVer}}
+          node-version: 16
       - run: npm install
-      - run: npm run build
-      - name: ovsx publish
-        uses: HaaLeo/publish-vscode-extension@v1
-        id: ovsx_publish
-        with:
-          pat: ${{secrets.OPEN_VSX_TOKEN}}
-      - name: vsce publish
-        uses: HaaLeo/publish-vscode-extension@v1
-        with:
-          pat: ${{secrets.VSCE_TOKEN}}
-          registryUrl: https://marketplace.visualstudio.com
-          extensionFile: ${{steps.ovsx_publish.outputs.vsixPath}}
-          packagePath: ''
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vscode-remark.vsix
-          path: ${{steps.ovsx_publish.outputs.vsixPath}}
-      - name: upload vsix to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          file: ${{steps.ovsx_publish.outputs.vsixPath}}
-          asset_name: vscode-remark.vsix
-          tag: ${{github.ref}}
+      - run: npx vsce package
+      - run: npx vsce publish --packagePath *.vsix
+        env:
+          VSCE_PAT: ${{secrets.VSCE_TOKEN}}
+      - run: npx ovsx publish --packagePath *.vsix
+        env:
+          OVSX_PAT: ${{secrets.OPEN_VSX_TOKEN}}
