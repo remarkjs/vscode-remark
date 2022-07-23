@@ -1,6 +1,6 @@
-.*
 .*/
 src/
 test/
+.*
 test.mjs
 tsconfig.json
