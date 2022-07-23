@@ -16,7 +16,7 @@ jobs:
       - run: npx vsce package
       - run: npx vsce publish --packagePath *.vsix
         env:
-          VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
+          VSCE_PAT: ${{secrets.VSCE_TOKEN}}
       - run: npx ovsx publish --packagePath *.vsix
         env:
-          OVSX_PAT: ${{ secrets.OPEN_VSX_TOKEN }}
+          OVSX_PAT: ${{secrets.OPEN_VSX_TOKEN}}
