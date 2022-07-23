@@ -138,7 +138,7 @@ abide by its terms.
 
 ## License
 
-[MIT](license) © [Titus Wormer](https://wooorm.com)
+[MIT][license] © Denis Malinochkin
 
 <!-- Definitions -->
 
@@ -165,6 +165,8 @@ abide by its terms.
 [coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
 
 [collective]: https://opencollective.com/unified
+
+[license]: license
 
 [marketplace]: https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-remark
 
