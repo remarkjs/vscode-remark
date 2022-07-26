@@ -15,8 +15,7 @@ export async function activate(context) {
    */
   const run = {
     module: context.asAbsolutePath('out/remark-language-server.js'),
-    transport: TransportKind.ipc,
-    args: ['--node-ipc']
+    transport: TransportKind.ipc
   }
 
   /**
