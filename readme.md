@@ -112,13 +112,8 @@ See this curated [list of plugins][list-of-plugins] for more remark plugins.
 
 ## Compatibility
 
-This extension is compatible with Visual Studio Code versions 1.46.0 and
+This extension is compatible with Visual Studio Code versions 1.67.0 and
 greater.
-
-Projects maintained by the unified collective are compatible with all maintained
-versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Security
 
