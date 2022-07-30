@@ -1,6 +1,6 @@
 {
   "name": "vscode-remark",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Lint and format markdown code with remark",
   "license": "MIT",
   "keywords": [
