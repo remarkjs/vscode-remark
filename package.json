@@ -62,10 +62,7 @@
     "trailingComma": "none"
   },
   "xo": {
-    "prettier": true,
-    "rules": {
-      "unicorn/prefer-module": "off"
-    }
+    "prettier": true
   },
   "remarkConfig": {
     "plugins": [
