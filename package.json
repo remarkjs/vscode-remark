@@ -111,7 +111,7 @@
       },
       {
         "fileMatch": "package.json",
-        "url": "./package-json-schema.json"
+        "url": "./package.schema.json"
       }
     ],
     "languages": [
