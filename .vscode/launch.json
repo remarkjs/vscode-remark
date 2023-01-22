@@ -6,29 +6,13 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
+      "autoAttachChildProcesses": true,
       "args": [
         "${workspaceFolder}/readme.md",
         "--extensionDevelopmentPath=${workspaceFolder}"
       ],
-      "presentation": {
-        "hidden": true
-      }
-    },
-    {
-      "name": "Debug language server",
-      "type": "node",
-      "request": "attach",
-      "port": 6009,
-      "presentation": {
-        "hidden": true
-      }
-    }
-  ],
-  "compounds": [
-    {
-      "preLaunchTask": "build",
-      "name": "Extension + Language server",
-      "configurations": ["Launch Extension", "Debug language server"]
+      "skipFiles": ["<node_internals>/**", "**/node_modules/vscode-*/**"],
+      "preLaunchTask": "build"
     }
   ]
 }
