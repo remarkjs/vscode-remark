@@ -2,8 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "build",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build", "--", "--sourcemap"],
       "label": "build",
       "group": {
         "kind": "build",
