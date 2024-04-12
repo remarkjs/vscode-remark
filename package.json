@@ -44,7 +44,7 @@
     "remark-language-server": "^2.0.0",
     "remark-preset-wooorm": "^9.0.0",
     "typescript": "^5.0.0",
-    "vscode-languageclient": "^8.0.0",
+    "vscode-languageclient": "^9.0.0",
     "xo": "^0.56.0"
   },
   "scripts": {
