@@ -7,16 +7,16 @@ const {commands, extensions, window, workspace} = require('vscode')
 module.exports.run = async () => {
   const filePath = path.join(__dirname, 'test.md')
 
-  const ext = extensions.getExtension('unifiedjs.vscode-remark')
-  await ext?.activate()
+  const extension = extensions.getExtension('unifiedjs.vscode-remark')
+  await extension?.activate()
 
   await test('use the language server', async () => {
     await fs.writeFile(filePath, '- remark\n- lsp\n- vscode\n')
-    const doc = await workspace.openTextDocument(filePath)
-    await window.showTextDocument(doc)
+    const document = await workspace.openTextDocument(filePath)
+    await window.showTextDocument(document)
     await commands.executeCommand('editor.action.formatDocument')
 
-    assert.equal(doc.getText(), '*   remark\n*   lsp\n*   vscode\n')
+    assert.equal(document.getText(), '*   remark\n*   lsp\n*   vscode\n')
   })
 
   await fs.rm(filePath, {force: true})
