@@ -1,5 +1,5 @@
 import {workspace} from 'vscode'
-import {LanguageClient} from 'vscode-languageclient/node.js'
+import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
 
 /**
  * @type {LanguageClient}
@@ -12,7 +12,10 @@ let client
 export async function activate(context) {
   client = new LanguageClient(
     'remark',
-    {module: context.asAbsolutePath('out/remark-language-server.js')},
+    {
+      module: context.asAbsolutePath('out/remark-language-server.js'),
+      transport: TransportKind.ipc
+    },
     {
       documentSelector: [{scheme: 'file', language: 'markdown'}],
       synchronize: {
