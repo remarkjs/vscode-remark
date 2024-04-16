@@ -102,6 +102,16 @@
     }
   },
   "contributes": {
+    "configuration": {
+      "title": "remark",
+      "properties": {
+        "remark.requireConfig": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "If true, only perform actions if a [configuration file](https://github.com/remarkjs/remark-language-server#configuration-file) is found."
+        }
+      }
+    },
     "jsonValidation": [
       {
         "fileMatch": [
