@@ -10,16 +10,18 @@ Visual Studio Code extension to format and lint markdown files with remark.
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [Formatting](#formatting)
-*   [Plugins](#plugins)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
-*   [Contribute](#contribute)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When should I use this?](#when-should-i-use-this)
+* [Install](#install)
+* [Use](#use)
+* [Configuration file](#configuration-file)
+* [Settings](#settings)
+* [Formatting](#formatting)
+* [Plugins](#plugins)
+* [Compatibility](#compatibility)
+* [Security](#security)
+* [Contribute](#contribute)
+* [License](#license)
 
 ## What is this?
 
@@ -71,6 +73,32 @@ Here’s an example that should produce problems you can use to verify:
 ```markdown
 1) Hello, _Jupiter_ and *Neptune*!
 ```
+
+## Configuration file
+
+`remark-language-server` uses the same configuration files as
+[`remark-cli`][remark-cli].
+These files are:
+
+* `.remarkrc`
+* `.remarkrc.cjs`
+* `.remarkrc.js`
+* `.remarkrc.json`
+* `.remarkrc.mjs`
+* `.remarkrc.yaml`
+* `.remarkrc.yml`
+* `package.json`
+
+Language clients should notify the language server if these files change.
+They are looked up starting at the folder where the checked markdown file
+exists.
+
+## Settings
+
+This extension supports the following settings:
+
+* `remark.requireConfig` (`boolean`, default: `false`) — If true, only perform
+  actions if a [configuration file][configuration-file] is found.
 
 ## Formatting
 
@@ -140,6 +168,8 @@ abide by its terms.
 [build-badge]: https://github.com/remarkjs/vscode-remark/workflows/main/badge.svg
 
 [build]: https://github.com/remarkjs/vscode-remark/actions
+
+[configuration-file]: #configuration-file
 
 [downloads-badge]: https://img.shields.io/visual-studio-marketplace/d/unifiedjs.vscode-remark
 
