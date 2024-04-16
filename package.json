@@ -40,9 +40,9 @@
     "esbuild": "^0.20.0",
     "ovsx": "^0.9.0",
     "prettier": "^3.0.0",
-    "remark-cli": "^11.0.0",
-    "remark-language-server": "^2.0.0",
-    "remark-preset-wooorm": "^9.0.0",
+    "remark-cli": "^12.0.0",
+    "remark-language-server": "^3.0.0",
+    "remark-preset-wooorm": "^10.0.0",
     "typescript": "^5.0.0",
     "vscode-languageclient": "^9.0.0",
     "xo": "^0.58.0"
