@@ -14,7 +14,10 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - run: npm test
+        if: ${{matrix.os!='ubuntu-latest'}}
       - run: xvfb-run npm test
+        if: ${{matrix.os=='ubuntu-latest'}}
 
   package:
     runs-on: ubuntu-latest
