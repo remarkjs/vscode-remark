@@ -154,6 +154,13 @@
         }
       }
     },
+    "commands": [
+      {
+        "command": "unifiedjs.vscode-remark.restart",
+        "title": "Restart Remark Server",
+        "category": "Remark"
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": [
