@@ -8,3 +8,4 @@ out/
 .vscode/settings.json
 .vscode-test/
 yarn.lock
+.vscode-test
