@@ -42,6 +42,13 @@ test('restart the language server', async () => {
   await restarted
 })
 
+test('restart the language server', async () => {
+  const restarted = waitForRestartNotification(client)
+
+  await commands.executeCommand('unifiedjs.vscode-remark.restart')
+  await restarted
+})
+
 test('restart a stopped language server', async () => {
 
   const restarted = waitForRestartNotification(client);
@@ -57,10 +64,10 @@ test('restart a stopped language server', async () => {
  * @returns {Promise<void>}
  */
 async function waitForRestartNotification(client) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     client.sendNotification = () => {
       resolve()
       return Promise.resolve()
-    };
-  });
+    }
+  })
 }
