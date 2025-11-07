@@ -1,4 +1,4 @@
-const assert = require('node:assert')
+const assert = require('node:assert/strict')
 const fs = require('node:fs/promises')
 const os = require('node:os')
 const path = require('node:path')
@@ -34,10 +34,10 @@ module.exports.run = async () => {
   )
 
   /**
-   * @type {Extension}
+   * @type {Extension | undefined}
    */
-  // @ts-expect-error
   const extension = extensions.getExtension('unifiedjs.vscode-remark')
+  if (!extension) assert.fail('Extension was not found')
   const {client} = await extension.activate()
 
   const filePath = path.join(temporaryDirectory, 'test.md')
