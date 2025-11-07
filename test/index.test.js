@@ -1,5 +1,6 @@
-const assert = require('node:assert/strict')
+const assert = require('node:assert')
 const fs = require('node:fs/promises')
+const os = require('node:os')
 const path = require('node:path')
 const { test, before, afterEach } = require('node:test')
 const { commands, extensions, window, workspace } = require('vscode')
@@ -21,43 +22,53 @@ afterEach(async () => {
   await fs.rm(filePath, {force: true})
 })
 
-test('use the language server', async () => {
+/**
+ * @typedef {import('vscode-languageclient/node.js').LanguageClient} LanguageClient
+ * @typedef {import('vscode').Extension<{ client: LanguageClient, deactivate(): Promise<void> }>} Extension
+ */
+
+module.exports.run = async () => {
+  // Make a temp dir to prevent the repo from having stray files when tests crash
+  const temporaryDirectory = await fs.mkdtemp(
+    path.join(os.tmpdir(), 'vscode-remark-')
+  )
+
+  /**
+   * @type {Extension}
+   */
+  // @ts-expect-error
+  const extension = extensions.getExtension('unifiedjs.vscode-remark')
+  const {client} = await extension.activate()
+
+  const filePath = path.join(temporaryDirectory, 'test.md')
+
   try {
-    await fs.writeFile(filePath, '- remark\n- lsp\n- vscode\n')
-    const document = await workspace.openTextDocument(filePath)
-    await window.showTextDocument(document)
-    await commands.executeCommand('editor.action.formatDocument')
+    await test('use the language server', async () => {
+      await fs.writeFile(filePath, '- remark\n- lsp\n- vscode\n')
+      const document = await workspace.openTextDocument(filePath)
+      await window.showTextDocument(document)
+      await commands.executeCommand('editor.action.formatDocument')
 
-    assert.equal(document.getText(), '* remark\n* lsp\n* vscode\n')
+      assert.equal(document.getText(), '* remark\n* lsp\n* vscode\n')
+    })
+    await test('restart the language server', async () => {
+      const restarted = waitForRestartNotification(client)
+
+      await commands.executeCommand('unifiedjs.vscode-remark.restart')
+      await restarted
+    })
+    await test('restart a stopped language server', async () => {
+      const restarted = waitForRestartNotification(client)
+      await client.stop()
+
+      await commands.executeCommand('unifiedjs.vscode-remark.restart')
+      await restarted
+    })
   } finally {
-    await fs.rm(filePath, { force: true })
+    await extension.exports.deactivate()
+    await fs.rm(filePath, {force: true})
   }
-})
-
-test('restart the language server', async () => {
-
-  const restarted = waitForRestartNotification(client);
-
-  await commands.executeCommand('unifiedjs.vscode-remark.restart')
-  await restarted
-})
-
-test('restart the language server', async () => {
-  const restarted = waitForRestartNotification(client)
-
-  await commands.executeCommand('unifiedjs.vscode-remark.restart')
-  await restarted
-})
-
-test('restart a stopped language server', async () => {
-
-  const restarted = waitForRestartNotification(client);
-
-  await client.stop();
-
-  await commands.executeCommand('unifiedjs.vscode-remark.restart')
-  await restarted
-})
+}
 
 /**
  * @param {import('vscode-languageclient/node').LanguageClient} client

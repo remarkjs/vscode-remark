@@ -1,4 +1,4 @@
-import {commands, workspace} from 'vscode'
+import {commands, window, workspace} from 'vscode'
 import {
   LanguageClient,
   State,
@@ -6,7 +6,7 @@ import {
 } from 'vscode-languageclient/node.js'
 
 /**
- * @type {LanguageClient}
+ * @type {LanguageClient | undefined}
  */
 let client
 /**
@@ -15,20 +15,16 @@ let client
 let extensionContext
 
 /**
- * @param {ExtensionContext} context
+ * @type {import('vscode').Disposable | undefined}
+ */
+let restartCommand
+
+/**
+ * @param {import('vscode').ExtensionContext} context
  */
 export async function activate(context) {
+  // Create a language server
   extensionContext = context
-
-  createClient()
-  await client.start()
-
-  registerCommands()
-
-  return client
-}
-
-function createClient() {
   client = new LanguageClient(
     'remark',
     {
@@ -47,27 +43,47 @@ function createClient() {
       }
     }
   )
+
+  // Start the server
+  await client.start()
+
+  // Register commands if they're not there already
+  restartCommand ||= commands.registerCommand(
+    'unifiedjs.vscode-remark.restart',
+    () =>
+      restart().catch((error) => {
+        window.showErrorMessage(error.message, error.cause, error.stack)
+        throw error
+      }),
+    client
+  )
+
+  return {client, deactivate}
 }
 
 export async function deactivate() {
   if (client) {
     await client.stop()
     await client.dispose()
+    client = undefined
+  }
+
+  if (restartCommand) {
+    await restartCommand.dispose()
+    restartCommand = undefined
   }
 }
 
-export async function restart() {
-  if (client.state === State.Starting) return
-
-  // If there is no client or if it's stopped the process crashed
+async function restart() {
+  // If there is no client, create a new one
   if (!client) {
     await activate(extensionContext)
     return
   }
 
+  if (client.state === State.Starting) return
+
   if (client.state === State.Stopped) {
-    await client.dispose()
-    createClient()
     await client.start()
     return
   }
@@ -77,15 +93,4 @@ export async function restart() {
 
   client.info('Remark server restarted')
   await client.sendNotification('unifiedjs.vscode-remark.restarted')
-}
-
-function registerCommands() {
-  commands.registerCommand(
-    'unifiedjs.vscode-remark.restart',
-    () =>
-      restart().catch((error) => {
-        throw error
-      }),
-    client
-  )
 }
