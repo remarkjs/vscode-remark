@@ -85,7 +85,8 @@
     "Linters"
   ],
   "activationEvents": [
-    "onLanguage:markdown"
+    "onLanguage:markdown",
+    "onLanguage:mdx"
   ],
   "qna": "https://github.com/orgs/remarkjs/discussions",
   "sponsor": {
