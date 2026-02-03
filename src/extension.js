@@ -1,4 +1,4 @@
-import {commands, window, workspace} from 'vscode'
+import { commands, window, workspace } from 'vscode'
 import {
   LanguageClient,
   State,
@@ -32,7 +32,7 @@ export async function activate(context) {
       transport: TransportKind.ipc
     },
     {
-      documentSelector: [{scheme: 'file', language: 'markdown'}],
+      documentSelector: [{ scheme: 'file', language: 'markdown' }],
       synchronize: {
         fileEvents: [
           workspace.createFileSystemWatcher(
@@ -48,17 +48,20 @@ export async function activate(context) {
   await client.start()
 
   // Register commands if they're not there already
-  restartCommand ||= commands.registerCommand(
-    'unifiedjs.vscode-remark.restart',
-    () =>
-      restart().catch((error) => {
-        window.showErrorMessage(error.message, error.cause, error.stack)
-        throw error
-      }),
-    client
-  )
+  if (!restartCommand) {
+    restartCommand = commands.registerCommand(
+      'unifiedjs.vscode-remark.restart',
+      () =>
+        restart().catch((error) => {
+          window.showErrorMessage(error.message, error.cause, error.stack)
+          throw error
+        }),
+      client
+    );
+    context.subscriptions.push(restartCommand)
+  }
 
-  return {client, deactivate}
+  return { client, deactivate }
 }
 
 export async function deactivate() {
@@ -88,7 +91,7 @@ async function restart() {
     return
   }
 
-  client?.info('User requested server restart')
+  client.info('User requested server restart')
   await client.restart()
 
   client.info('Remark server restarted')
