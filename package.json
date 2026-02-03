@@ -157,8 +157,8 @@
     "commands": [
       {
         "command": "unifiedjs.vscode-remark.restart",
-        "title": "Restart Remark Server",
-        "category": "Remark"
+        "title": "Restart remark Server",
+        "category": "remark"
       }
     ],
     "jsonValidation": [

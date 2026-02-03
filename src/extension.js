@@ -94,6 +94,6 @@ async function restart() {
   client.info('User requested server restart')
   await client.restart()
 
-  client.info('Remark server restarted')
+  client.info('The remark server restarted')
   await client.sendNotification('unifiedjs.vscode-remark.restarted')
 }
