@@ -38,12 +38,11 @@ module.exports.run = async () => {
    */
   const extension = extensions.getExtension('unifiedjs.vscode-remark')
   if (!extension) assert.fail('Extension was not found')
-  const { client } = await extension.activate()
+  const {client} = await extension.activate()
 
   const filePath = path.join(temporaryDirectory, 'test.md')
 
   try {
-
     await test('use the language server', async () => {
       await fs.writeFile(filePath, '- remark\n- lsp\n- vscode\n')
       const document = await workspace.openTextDocument(filePath)
@@ -67,7 +66,6 @@ module.exports.run = async () => {
       await commands.executeCommand('unifiedjs.vscode-remark.restart')
       await restarted
     })
-
   } finally {
     await extension.exports.deactivate()
     await fs.rm(temporaryDirectory, {recursive: true, force: true})
