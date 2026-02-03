@@ -70,7 +70,7 @@ module.exports.run = async () => {
 
   } finally {
     await extension.exports.deactivate()
-    await fs.rm(filePath, { force: true })
+    await fs.rm(temporaryDirectory, {recursive: true, force: true})
   }
 }
 
