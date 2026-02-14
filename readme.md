@@ -52,7 +52,7 @@ CI, to enforce the markdown style.
 [Get it on the VS Code Marketplace][marketplace] or install it by using Quick
 Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and running the following:
 
-```txt
+```text
 ext install unifiedjs.vscode-remark
 ```
 
@@ -165,40 +165,40 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/remarkjs/vscode-remark/workflows/main/badge.svg
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
 
 [build]: https://github.com/remarkjs/vscode-remark/actions
 
-[configuration-file]: #configuration-file
-
-[downloads-badge]: https://img.shields.io/visual-studio-marketplace/d/unifiedjs.vscode-remark
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
+[build-badge]: https://github.com/remarkjs/vscode-remark/workflows/main/badge.svg
 
 [chat]: https://github.com/remarkjs/remark/discussions
 
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[health]: https://github.com/remarkjs/.github
-
-[contributing]: https://github.com/remarkjs/.github/blob/main/contributing.md
-
-[support]: https://github.com/remarkjs/.github/blob/main/support.md
+[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
 
 [coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
 
 [collective]: https://opencollective.com/unified
 
+[configuration-file]: #configuration-file
+
+[contributing]: https://github.com/remarkjs/.github/blob/main/contributing.md
+
+[downloads-badge]: https://img.shields.io/visual-studio-marketplace/d/unifiedjs.vscode-remark
+
+[health]: https://github.com/remarkjs/.github
+
 [license]: license
 
-[marketplace]: https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-remark
+[list-of-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md
 
-[remark-lint]: https://github.com/remarkjs/remark-lint
+[marketplace]: https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-remark
 
 [remark]: https://github.com/remarkjs/remark
 
 [remark-cli]: https://github.com/remarkjs/remark/tree/main/packages/remark-cli
 
-[list-of-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md
+[remark-lint]: https://github.com/remarkjs/remark-lint
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[support]: https://github.com/remarkjs/.github/blob/main/support.md
