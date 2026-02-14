@@ -117,6 +117,40 @@
           "type": "boolean",
           "default": false,
           "markdownDescription": "If true, only perform actions if a [configuration file](https://github.com/remarkjs/vscode-remark#configuration-file) is found."
+        },
+        "remark.trace.server.format": {
+          "enum": [
+            "text",
+            "json"
+          ],
+          "enumDescriptions": [
+            "Format as human friendly text",
+            "Format as raw JSON"
+          ],
+          "default": "text",
+          "markdownDescription": "Configure the remark server tracing format.",
+          "tags": [
+            "advanced"
+          ]
+        },
+        "remark.trace.server.verbosity": {
+          "enum": [
+            "off",
+            "messages",
+            "compact",
+            "verbose"
+          ],
+          "enumDescriptions": [
+            "Turn tracing off.",
+            "Trace messages only.",
+            "Compact message tracing.",
+            "Verbose message tracing."
+          ],
+          "default": "off",
+          "markdownDescription": "Configure the remark server tracing verbosity.",
+          "tags": [
+            "advanced"
+          ]
         }
       }
     },
