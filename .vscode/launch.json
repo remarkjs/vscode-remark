@@ -2,6 +2,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug tests",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--disable-updates",
+        "--disable-workspace-trust",
+        "--profile-temp",
+        "--skip-release-notes",
+        "--skip-welcome",
+        "--extensionDevelopmentPath=${workspaceFolder}"
+      ],
+      "testConfiguration": "${workspaceFolder}/.vscode-test.mjs",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/vscode-*/**"],
+      "preLaunchTask": "build"
+    },
+    {
       "name": "Launch Extension",
       "type": "extensionHost",
       "request": "launch",
