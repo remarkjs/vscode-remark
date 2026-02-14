@@ -1,3 +1,7 @@
+/**
+ * @import {ExtensionContext} from 'vscode'
+ */
+
 import {workspace} from 'vscode'
 import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
 
@@ -7,7 +11,7 @@ import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
 let client
 
 /**
- * @param {import('vscode').ExtensionContext} context
+ * @param {ExtensionContext} context
  */
 export async function activate(context) {
   client = new LanguageClient(
