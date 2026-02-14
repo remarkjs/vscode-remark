@@ -2,6 +2,7 @@ logs/
 node_modules/
 out/
 *.log
+*.tsbuildinfo
 *.vsix
 .DS_Store
 .vscode/settings.json
