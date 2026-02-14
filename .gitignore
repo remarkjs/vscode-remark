@@ -4,5 +4,6 @@ out/
 *.log
 *.vsix
 .DS_Store
-.vscode*
+.vscode/settings.json
+.vscode-test/
 yarn.lock
