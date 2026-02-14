@@ -8,7 +8,8 @@ const filePath = path.join(__dirname, 'test.md')
 
 before(async () => {
   const extension = extensions.getExtension('unifiedjs.vscode-remark')
-  await extension?.activate()
+  assert(extension, 'Expected the extension to exist')
+  await extension.activate()
 })
 
 afterEach(async () => {
