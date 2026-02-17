@@ -38,7 +38,9 @@ export async function activate(context) {
 
   await client.start()
 
-  // Create restart
+  /**
+   * Restart the language server
+   */
   async function restart() {
     if (client.state === State.Starting) return
     if (client.state === State.Stopped) {
@@ -53,7 +55,6 @@ export async function activate(context) {
     await client.sendNotification('remark.restarted')
   }
 
-  // Register commands to the context
   context.subscriptions.push(
     commands.registerCommand(
       'remark.restart',

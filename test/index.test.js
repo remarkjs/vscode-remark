@@ -59,7 +59,7 @@ test('restart a stopped language server', async () => {
 })
 
 /**
- * @param {import('vscode-languageclient/node').LanguageClient} client
+ * @param {LanguageClient} client
  * @returns {Promise<void>}
  */
 async function waitForRestartNotification(client) {
