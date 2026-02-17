@@ -1,3 +1,7 @@
+/**
+ * @import {LanguageClient} from 'vscode-languageclient/node.js'
+ * @import {Extension as VsCodeExtension} from 'vscode'
+ */
 const assert = require('node:assert/strict')
 const fs = require('node:fs/promises')
 const os = require('node:os')
@@ -8,7 +12,7 @@ const {commands, extensions, window, workspace} = require('vscode')
 const filePath = path.join(__dirname, 'test.md')
 
 /**
- * @type {import('vscode-languageclient/node.js').LanguageClient}
+ * @type {LanguageClient}
  */
 
 afterEach(async () => {
@@ -16,8 +20,8 @@ afterEach(async () => {
 })
 
 /**
- * @typedef {import('vscode-languageclient/node.js').LanguageClient} LanguageClient
- * @typedef {import('vscode').Extension<{ client: LanguageClient, deactivate(): Promise<void> }>} Extension
+ * @typedef {LanguageClient} LanguageClient
+ * @typedef {VsCodeExtension<LanguageClient>} Extension
  */
 
 module.exports.run = async () => {
@@ -31,7 +35,7 @@ module.exports.run = async () => {
    */
   const extension = extensions.getExtension('unifiedjs.vscode-remark')
   if (!extension) assert.fail('Extension was not found')
-  const {client} = await extension.activate()
+  const client = await extension.activate()
 
   const filePath = path.join(temporaryDirectory, 'test.md')
 
@@ -48,7 +52,7 @@ module.exports.run = async () => {
     await test('restart the language server', async () => {
       const restarted = waitForRestartNotification(client)
 
-      await commands.executeCommand('unifiedjs.vscode-remark.restart')
+      await commands.executeCommand('remark.restart')
       await restarted
     })
 
@@ -56,11 +60,10 @@ module.exports.run = async () => {
       const restarted = waitForRestartNotification(client)
       await client.stop()
 
-      await commands.executeCommand('unifiedjs.vscode-remark.restart')
+      await commands.executeCommand('remark.restart')
       await restarted
     })
   } finally {
-    await extension.exports.deactivate()
     await fs.rm(temporaryDirectory, {recursive: true, force: true})
   }
 }

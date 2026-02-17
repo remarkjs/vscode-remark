@@ -156,7 +156,7 @@
     },
     "commands": [
       {
-        "command": "unifiedjs.vscode-remark.restart",
+        "command": "remark.restart",
         "title": "Restart remark Server",
         "category": "remark"
       }

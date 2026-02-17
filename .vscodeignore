@@ -4,4 +4,3 @@ test/
 .*
 test.mjs
 tsconfig.json
-.vscode-test

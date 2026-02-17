@@ -1,4 +1,7 @@
-import {commands, window, workspace} from 'vscode'
+/**
+ * @import {ExtensionContext} from 'vscode'
+ */
+import {commands, workspace} from 'vscode'
 import {
   LanguageClient,
   State,
@@ -11,7 +14,7 @@ import {
 let client
 
 /**
- * @param {import('vscode').ExtensionContext} context
+ * @param {ExtensionContext} context
  */
 export async function activate(context) {
   client = new LanguageClient(
@@ -33,7 +36,6 @@ export async function activate(context) {
     }
   )
 
-  // Start the server
   await client.start()
 
   // Create restart
@@ -48,29 +50,29 @@ export async function activate(context) {
     await client.restart()
 
     client.info('The remark server restarted')
-    await client.sendNotification('unifiedjs.vscode-remark.restarted')
+    await client.sendNotification('remark.restarted')
   }
 
   // Register commands to the context
   context.subscriptions.push(
     commands.registerCommand(
-      'unifiedjs.vscode-remark.restart',
-      () =>
-        // eslint-disable-next-line  promise/prefer-await-to-then -- casting to error didn't work
-        restart().catch((error) => {
-          window.showErrorMessage(error.message, error.cause, error.stack)
-          throw error
-        }),
+      'remark.restart',
+      async () => {
+        try {
+          await restart()
+        } catch (error) {
+          client.error('Failed to restart the remark server', error)
+        }
+      },
       client
     )
   )
 
-  return {client, deactivate}
+  return client
 }
 
 export async function deactivate() {
   if (client) {
     await client.stop()
-    await client.dispose()
   }
 }
