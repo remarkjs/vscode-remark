@@ -1,5 +1,5 @@
 {
-  "exclude": ["out", ".vscode-test"],
+  "exclude": ["out"],
   "compilerOptions": {
     "checkJs": true,
     "module": "nodenext",
