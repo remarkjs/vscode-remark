@@ -6,19 +6,29 @@ import {
 } from 'vscode-languageclient/node.js'
 
 /**
- * @type {LanguageClient}
+ * @type {LanguageClient | undefined}
  */
 let client
+/**
+ * @type {import('vscode').ExtensionContext}
+ */
+let extensionContext
+
+/**
+ * @type {import('vscode').Disposable | undefined}
+ */
+let restartCommand
 
 /**
  * @param {import('vscode').ExtensionContext} context
  */
 export async function activate(context) {
   // Create a language server
+  extensionContext = context
   client = new LanguageClient(
     'remark',
     {
-      module: context.asAbsolutePath('out/remark-language-server.js'),
+      module: extensionContext.asAbsolutePath('out/remark-language-server.js'),
       transport: TransportKind.ipc
     },
     {
@@ -37,33 +47,20 @@ export async function activate(context) {
   // Start the server
   await client.start()
 
-  // Create restart command
-  async function restart() {
-    if (client.state === State.Starting) return
-    if (client.state === State.Stopped) {
-      await client.start()
-      return
-    }
-
-    client.info('User requested server restart')
-    await client.restart()
-
-    client.info('The remark server restarted')
-    await client.sendNotification('unifiedjs.vscode-remark.restarted')
-  }
-
-  // Register commands to the context
-  context.subscriptions.push(
-    commands.registerCommand(
+  // Register commands if they're not there already
+  if (!restartCommand) {
+    restartCommand = commands.registerCommand(
       'unifiedjs.vscode-remark.restart',
       () =>
+        // eslint-disable-next-line  promise/prefer-await-to-then -- casting to error didn't work
         restart().catch((error) => {
           window.showErrorMessage(error.message, error.cause, error.stack)
           throw error
         }),
       client
     )
-  )
+    context.subscriptions.push(restartCommand)
+  }
 
   return {client, deactivate}
 }
@@ -72,5 +69,32 @@ export async function deactivate() {
   if (client) {
     await client.stop()
     await client.dispose()
+    client = undefined
   }
+
+  if (restartCommand) {
+    await restartCommand.dispose()
+    restartCommand = undefined
+  }
+}
+
+async function restart() {
+  // If there is no client, create a new one
+  if (!client) {
+    await activate(extensionContext)
+    return
+  }
+
+  if (client.state === State.Starting) return
+
+  if (client.state === State.Stopped) {
+    await client.start()
+    return
+  }
+
+  client.info('User requested server restart')
+  await client.restart()
+
+  client.info('Remark server restarted')
+  await client.sendNotification('unifiedjs.vscode-remark.restarted')
 }

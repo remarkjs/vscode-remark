@@ -16,14 +16,9 @@
         "--extensionDevelopmentPath=${workspaceFolder}",
         "--extensionTestsPath=${workspaceFolder}/test/index.test.js"
       ],
-      "outFiles": [
-        "${workspaceFolder}/out/**/*.js"
-      ],
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": [
-        "<node_internals>/**",
-        "**/node_modules/vscode-*/**"
-      ],
+      "skipFiles": ["<node_internals>/**", "**/node_modules/vscode-*/**"],
       "preLaunchTask": "build"
     },
     {
@@ -41,10 +36,7 @@
         "${workspaceFolder}/readme.md",
         "--extensionDevelopmentPath=${workspaceFolder}"
       ],
-      "skipFiles": [
-        "<node_internals>/**",
-        "**/node_modules/vscode-*/**"
-      ],
+      "skipFiles": ["<node_internals>/**", "**/node_modules/vscode-*/**"],
       "preLaunchTask": "build"
     }
   ]
