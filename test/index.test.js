@@ -1,6 +1,8 @@
 /**
  * @import {LanguageClient} from 'vscode-languageclient/node.js'
  * @import {Extension as VsCodeExtension} from 'vscode'
+ * @typedef {LanguageClient} LanguageClient
+ * @typedef {VsCodeExtension<LanguageClient>} Extension
  */
 const assert = require('node:assert/strict')
 const fs = require('node:fs/promises')
@@ -11,55 +13,50 @@ const {commands, extensions, window, workspace} = require('vscode')
 
 // Make a temp dir to prevent the repo from having stray files when tests crash
 let temporaryDirectory = './vscode-remark'
+/** @type { LanguageClient} */
+let client
+
 beforeEach(async () => {
   temporaryDirectory = await fs.mkdtemp(
     path.join(os.tmpdir(), 'vscode-remark-')
   )
+
+  /** @type {Extension | undefined} */
+  const extension = extensions.getExtension('unifiedjs.vscode-remark')
+  if (!extension) assert.fail('Extension was not found')
+  client = await extension.activate()
 })
 
 afterEach(async () => {
   await fs.rm(temporaryDirectory, {recursive: true, force: true})
+  client.dispose()
 })
 
-/**
- * @typedef {LanguageClient} LanguageClient
- * @typedef {VsCodeExtension<LanguageClient>} Extension
- */
+const filePath = path.join(temporaryDirectory, 'test.md')
 
-module.exports.run = async () => {
-  /**
-   * @type {Extension | undefined}
-   */
-  const extension = extensions.getExtension('unifiedjs.vscode-remark')
-  if (!extension) assert.fail('Extension was not found')
-  const client = await extension.activate()
+test('use the language server', async () => {
+  await fs.writeFile(filePath, '- remark\n- lsp\n- vscode\n')
+  const document = await workspace.openTextDocument(filePath)
+  await window.showTextDocument(document)
+  await commands.executeCommand('editor.action.formatDocument')
 
-  const filePath = path.join(temporaryDirectory, 'test.md')
+  assert.equal(document.getText(), '* remark\n* lsp\n* vscode\n')
+})
 
-  test('use the language server', async () => {
-    await fs.writeFile(filePath, '- remark\n- lsp\n- vscode\n')
-    const document = await workspace.openTextDocument(filePath)
-    await window.showTextDocument(document)
-    await commands.executeCommand('editor.action.formatDocument')
+test('restart the language server', async () => {
+  const restarted = waitForRestartNotification(client)
 
-    assert.equal(document.getText(), '* remark\n* lsp\n* vscode\n')
-  })
+  await commands.executeCommand('remark.restart')
+  await restarted
+})
 
-  test('restart the language server', async () => {
-    const restarted = waitForRestartNotification(client)
+test('restart a stopped language server', async () => {
+  const restarted = waitForRestartNotification(client)
+  await client.stop()
 
-    await commands.executeCommand('remark.restart')
-    await restarted
-  })
-
-  test('restart a stopped language server', async () => {
-    const restarted = waitForRestartNotification(client)
-    await client.stop()
-
-    await commands.executeCommand('remark.restart')
-    await restarted
-  })
-}
+  await commands.executeCommand('remark.restart')
+  await restarted
+})
 
 /**
  * @param {import('vscode-languageclient/node').LanguageClient} client
