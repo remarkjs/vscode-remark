@@ -12,12 +12,9 @@
         "--profile-temp",
         "--skip-release-notes",
         "--skip-welcome",
-        "${workspaceFolder}/readme.md",
-        "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionTestsPath=${workspaceFolder}/test/index.test.js"
+        "--extensionDevelopmentPath=${workspaceFolder}"
       ],
-      "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "internalConsoleOptions": "openOnSessionStart",
+      "testConfiguration": "${workspaceFolder}/.vscode-test.mjs",
       "skipFiles": ["<node_internals>/**", "**/node_modules/vscode-*/**"],
       "preLaunchTask": "build"
     },
