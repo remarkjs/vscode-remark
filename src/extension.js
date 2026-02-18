@@ -42,26 +42,26 @@ export async function activate(context) {
    * Restart the language server
    */
   async function restart() {
-    if (client.state === State.Starting) {
-      return
-    }
+    try {
+      if (client.state === State.Starting) {
+        return
+      }
 
-    if (client.state === State.Stopped) {
-      await client.start()
-      return
-    }
+      if (client.state === State.Stopped) {
+        await client.start()
+        return
+      }
 
-    client.info('User requested server restart')
-    await client.restart()
-    client.info('The remark server restarted')
+      client.info('User requested server restart')
+      await client.restart()
+      client.info('The remark server restarted')
+    } catch (error) {
+      client.error('Failed to restart the remark server', error)
+    }
   }
 
   context.subscriptions.push(
-    commands.registerCommand('remark.restart', () => {
-      restart().catch((error) => {
-        client.error('Failed to restart the remark server', error)
-      })
-    })
+    commands.registerCommand('remark.restart', restart)
   )
 
   return client
