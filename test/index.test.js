@@ -20,6 +20,7 @@ before(async () => {
 })
 
 afterEach(async () => {
+  await commands.executeCommand('workbench.action.closeAllEditors')
   await fs.rm(filePath, {force: true})
 })
 
