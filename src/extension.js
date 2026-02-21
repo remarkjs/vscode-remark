@@ -12,6 +12,11 @@ import {
  * @param {ExtensionContext} context
  */
 export async function activate(context) {
+  const remarkConfigWatcher = workspace.createFileSystemWatcher(
+    '**/.remark{ignore,rc,rc.cjs,rc.js,rc.json,rc.mjs,rc.yaml,rc.yml}'
+  )
+  const packageJsonWatcher = workspace.createFileSystemWatcher('**/package.json')
+
   const client = new LanguageClient(
     'remark',
     {
@@ -21,12 +26,7 @@ export async function activate(context) {
     {
       documentSelector: [{scheme: 'file', language: 'markdown'}],
       synchronize: {
-        fileEvents: [
-          workspace.createFileSystemWatcher(
-            '**/.remark{ignore,rc,rc.cjs,rc.js,rc.json,rc.mjs,rc.yaml,rc.yml}'
-          ),
-          workspace.createFileSystemWatcher('**/package.json')
-        ]
+        fileEvents: [remarkConfigWatcher, packageJsonWatcher]
       }
     }
   )
@@ -35,7 +35,9 @@ export async function activate(context) {
 
   context.subscriptions.push(
     client,
-    commands.registerCommand('remark.restart', restart)
+    commands.registerCommand('remark.restart', restart),
+    remarkConfigWatcher,
+    packageJsonWatcher
   )
 
   return client
