@@ -1,9 +1,12 @@
 /**
  * @import {ExtensionContext} from 'vscode'
  */
-
-import {workspace} from 'vscode'
-import {LanguageClient, TransportKind} from 'vscode-languageclient/node.js'
+import {commands, workspace} from 'vscode'
+import {
+  LanguageClient,
+  State,
+  TransportKind
+} from 'vscode-languageclient/node.js'
 
 /**
  * @type {LanguageClient}
@@ -34,10 +37,38 @@ export async function activate(context) {
   )
 
   await client.start()
+
+  context.subscriptions.push(
+    commands.registerCommand('remark.restart', restart)
+  )
+
+  return client
 }
 
 export async function deactivate() {
   if (client) {
     await client.stop()
+  }
+}
+
+/**
+ * Restart the language server
+ */
+async function restart() {
+  try {
+    if (client.state === State.Starting) {
+      return
+    }
+
+    if (client.state === State.Stopped) {
+      await client.start()
+      return
+    }
+
+    client.info('User requested server restart')
+    await client.restart()
+    client.info('The remark server restarted')
+  } catch (error) {
+    client.error('Failed to restart the remark server', error)
   }
 }

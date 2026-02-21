@@ -154,6 +154,13 @@
         }
       }
     },
+    "commands": [
+      {
+        "command": "remark.restart",
+        "title": "Restart remark Server",
+        "category": "remark"
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": [
