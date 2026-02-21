@@ -157,7 +157,7 @@
     "commands": [
       {
         "command": "remark.restart",
-        "title": "Restart remark Server",
+        "title": "Restart Server",
         "category": "remark"
       }
     ],
