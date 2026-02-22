@@ -12,10 +12,11 @@ import {
  * @param {ExtensionContext} context
  */
 export async function activate(context) {
+  const packageJsonWatcher =
+    workspace.createFileSystemWatcher('**/package.json')
   const remarkConfigWatcher = workspace.createFileSystemWatcher(
     '**/.remark{ignore,rc,rc.cjs,rc.js,rc.json,rc.mjs,rc.yaml,rc.yml}'
   )
-  const packageJsonWatcher = workspace.createFileSystemWatcher('**/package.json')
 
   const client = new LanguageClient(
     'remark',
