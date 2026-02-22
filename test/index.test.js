@@ -21,6 +21,13 @@ before(async () => {
 
 afterEach(async () => {
   await commands.executeCommand('workbench.action.closeAllEditors')
+  // Give the server a moment to finish any in-flight work (e.g. plugin
+  // loading triggered by a document open) before the next test starts.
+  // Without this, the format request in the first test can arrive before
+  // the server has finished initializing on slower platforms like macOS.
+  await new Promise((resolve) => {
+    setTimeout(resolve, 500)
+  })
   await fs.rm(filePath, {force: true})
 })
 
