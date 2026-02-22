@@ -1,7 +1,7 @@
 /**
  * @import {ExtensionContext} from 'vscode'
  */
-import {commands, workspace} from 'vscode'
+import {commands, window, workspace} from 'vscode'
 import {
   LanguageClient,
   State,
@@ -17,6 +17,7 @@ export async function activate(context) {
   const remarkConfigWatcher = workspace.createFileSystemWatcher(
     '**/.remark{ignore,rc,rc.cjs,rc.js,rc.json,rc.mjs,rc.yaml,rc.yml}'
   )
+  const outputChannel = window.createOutputChannel('remark')
 
   const client = new LanguageClient(
     'remark',
@@ -26,6 +27,7 @@ export async function activate(context) {
     },
     {
       documentSelector: [{scheme: 'file', language: 'markdown'}],
+      outputChannel,
       synchronize: {
         fileEvents: [remarkConfigWatcher, packageJsonWatcher]
       }
@@ -35,6 +37,7 @@ export async function activate(context) {
   context.subscriptions.push(
     remarkConfigWatcher,
     packageJsonWatcher,
+    outputChannel,
     commands.registerCommand('remark.restart', restart),
     client
   )
