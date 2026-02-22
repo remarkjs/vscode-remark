@@ -5,7 +5,7 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs/promises')
 const path = require('node:path')
-const {before, afterEach} = require('mocha')
+const {before, beforeEach, afterEach} = require('mocha')
 const {commands, extensions, window, workspace} = require('vscode')
 const {State} = require('vscode-languageclient')
 
@@ -19,15 +19,18 @@ before(async () => {
   client = await extension.activate()
 })
 
-afterEach(async () => {
-  await commands.executeCommand('workbench.action.closeAllEditors')
-  // Give the server a moment to finish any in-flight work (e.g. plugin
-  // loading triggered by a document open) before the next test starts.
-  // Without this, the format request in the first test can arrive before
-  // the server has finished initializing on slower platforms like macOS.
+// Give the server a moment to finish any in-flight work (e.g. plugin
+// loading triggered by a document open) before each test starts.
+// Without this, the format request in the first test can arrive before
+// the server has finished initializing on slower platforms like macOS in github-actions.
+beforeEach(async () => {
   await new Promise((resolve) => {
     setTimeout(resolve, 500)
   })
+})
+
+afterEach(async () => {
+  await commands.executeCommand('workbench.action.closeAllEditors')
   await fs.rm(filePath, {force: true})
 })
 
