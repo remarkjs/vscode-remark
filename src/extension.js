@@ -33,10 +33,10 @@ export async function activate(context) {
   )
 
   context.subscriptions.push(
-    client,
-    commands.registerCommand('remark.restart', restart),
     remarkConfigWatcher,
-    packageJsonWatcher
+    packageJsonWatcher,
+    commands.registerCommand('remark.restart', restart),
+    client
   )
 
   await client.start()
