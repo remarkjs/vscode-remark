@@ -54,13 +54,7 @@ export async function activate(context) {
       return
     }
 
-    try {
-      client.info('User requested server restart')
-      await client.restart()
-      client.info('The remark server restarted')
-    } catch (error) {
-      client.error('Failed to restart the remark server', error)
-    }
+    await client.restart()
   }
 }
 
