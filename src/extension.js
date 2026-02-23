@@ -50,16 +50,11 @@ export async function activate(context) {
       return
     }
 
+    if (client.state === State.Starting) {
+      return
+    }
+
     try {
-      if (client.state === State.Starting) {
-        return
-      }
-
-      if (client.state === State.Stopped) {
-        await client.start()
-        return
-      }
-
       client.info('User requested server restart')
       await client.restart()
       client.info('The remark server restarted')
