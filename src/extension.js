@@ -41,24 +41,24 @@ export async function activate(context) {
   )
 
   return client
-
-  /**
-   * Restart the language server
-   */
-  async function restart() {
-    if (!client) {
-      return
-    }
-
-    if (client.state === State.Starting) {
-      return
-    }
-
-    await client.restart()
-  }
 }
 
 export async function deactivate() {
   await client?.dispose()
   client = undefined
+}
+
+/**
+ * Restart the language server
+ */
+async function restart() {
+  if (!client) {
+    return
+  }
+
+  if (client.state === State.Starting) {
+    return
+  }
+
+  await client.restart()
 }
