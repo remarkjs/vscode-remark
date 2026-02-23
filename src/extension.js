@@ -8,11 +8,14 @@ import {
   TransportKind
 } from 'vscode-languageclient/node.js'
 
+/** @type {LanguageClient | undefined} */
+let client
+
 /**
  * @param {ExtensionContext} context
  */
 export async function activate(context) {
-  const client = new LanguageClient(
+  client = new LanguageClient(
     'remark',
     {
       module: context.asAbsolutePath('out/remark-language-server.js'),
@@ -34,7 +37,6 @@ export async function activate(context) {
   await client.start()
 
   context.subscriptions.push(
-    client,
     commands.registerCommand('remark.restart', restart)
   )
 
@@ -44,6 +46,10 @@ export async function activate(context) {
    * Restart the language server
    */
   async function restart() {
+    if (!client) {
+      return
+    }
+
     try {
       if (client.state === State.Starting) {
         return
@@ -61,4 +67,9 @@ export async function activate(context) {
       client.error('Failed to restart the remark server', error)
     }
   }
+}
+
+export async function deactivate() {
+  await client?.dispose()
+  client = undefined
 }
