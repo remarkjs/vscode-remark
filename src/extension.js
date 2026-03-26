@@ -22,7 +22,13 @@ export async function activate(context) {
       transport: TransportKind.ipc
     },
     {
-      documentSelector: [{scheme: 'file', language: 'markdown'}],
+      documentSelector: [
+        {scheme: 'file', language: 'chatagent'},
+        {scheme: 'file', language: 'instructions'},
+        {scheme: 'file', language: 'markdown'},
+        {scheme: 'file', language: 'prompt'},
+        {scheme: 'file', language: 'skill'}
+      ],
       synchronize: {
         fileEvents: [
           workspace.createFileSystemWatcher(

@@ -93,7 +93,11 @@
     "Linters"
   ],
   "activationEvents": [
-    "onLanguage:markdown"
+    "onLanguage:chatagent",
+    "onLanguage:instructions",
+    "onLanguage:markdown",
+    "onLanguage:prompt",
+    "onLanguage:skill"
   ],
   "qna": "https://github.com/orgs/remarkjs/discussions",
   "sponsor": {
