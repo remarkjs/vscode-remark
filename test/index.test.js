@@ -6,7 +6,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs/promises')
 const path = require('node:path')
 const {before, afterEach} = require('mocha')
-const {commands, extensions, window, workspace} = require('vscode')
+const {WorkspaceEdit, commands, extensions, window, workspace} = require('vscode')
 const {State} = require('vscode-languageclient')
 
 /** @type {LanguageClient} */
@@ -27,7 +27,17 @@ test('use the language server', async () => {
   await fs.writeFile(filePath, '-   remark\n-   lsp\n-   vscode\n')
   const document = await workspace.openTextDocument(filePath)
   await window.showTextDocument(document)
-  await commands.executeCommand('editor.action.formatDocument')
+  const edits = await commands.executeCommand(
+    'vscode.executeFormatDocumentProvider',
+    document.uri,
+    {insertSpaces: true, tabSize: 2}
+  )
+  const workspaceEdit = new WorkspaceEdit()
+  for (const edit of edits) {
+    workspaceEdit.replace(document.uri, edit.range, edit.newText)
+  }
+
+  await workspace.applyEdit(workspaceEdit)
 
   assert.equal(document.getText(), '* remark\n* lsp\n* vscode\n')
 })

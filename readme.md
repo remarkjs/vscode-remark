@@ -99,6 +99,11 @@ This extension supports the following settings:
 
 * `remark.requireConfig` (`boolean`, default: `false`) — If true, only perform
   actions if a [configuration file][configuration-file] is found.
+* `remark.ignorePath` (`string`, optional) — Filepath to an ignore file to
+  load.
+* `remark.ignorePathResolveFrom` (`'cwd' | 'dir'`, default: `'dir'`) — Resolve
+  patterns in `remark.ignorePath` from the workspace folder (`'cwd'`) or the
+  ignore file’s folder (`'dir'`).
 
 ## Formatting
 
