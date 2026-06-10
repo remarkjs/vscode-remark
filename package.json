@@ -122,6 +122,23 @@
           "default": false,
           "markdownDescription": "If true, only perform actions if a [configuration file](https://github.com/remarkjs/vscode-remark#configuration-file) is found."
         },
+        "remark.ignorePath": {
+          "type": "string",
+          "default": ".remarkignore",
+          "markdownDescription": "Filepath to an ignore file to load. When relative, it is resolved from the workspace folder."
+        },
+        "remark.ignorePathResolveFrom": {
+          "enum": [
+            "cwd",
+            "dir"
+          ],
+          "markdownEnumDescriptions": [
+            "Resolve patterns in `ignorePath` from the workspace folder.",
+            "Resolve patterns in `ignorePath` from the configuration file’s folder."
+          ],
+          "default": "dir",
+          "markdownDescription": "From which location to resolve the ignore path."
+        },
         "remark.trace.server.format": {
           "enum": [
             "text",
