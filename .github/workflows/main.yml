@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 26
       - run: npm install
       - run: npm test
         if: ${{matrix.os!='ubuntu-latest'}}
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 26
       - run: npm install
       - run: npx vsce package
       - uses: actions/upload-artifact@v7
