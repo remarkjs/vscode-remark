@@ -124,7 +124,6 @@
         },
         "remark.ignorePath": {
           "type": "string",
-          "default": ".remarkignore",
           "markdownDescription": "Filepath to an ignore file to load. When relative, it is resolved from the workspace folder."
         },
         "remark.ignorePathResolveFrom": {
